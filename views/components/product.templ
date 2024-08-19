@@ -1,11 +1,41 @@
 package components
 
+import "github.com/google/uuid"
+
+type ProductOverview struct {
+	Id       string
+	Name     string
+	Category string
+}
+
 templ ProductForm() {
-	<form hx-post="/products">
+	<form hx-post="/products" hx-swap="outerHTML">
 		<label for="name">Nombre</label>
 		<input id="name" name="name"/>
 		<label for="category">Categoria</label>
 		<input id="category" name="category"/>
+		<input type="hidden" id="id" name="id" value={ uuid.New().String() }/>
 		<button>Guardar</button>
 	</form>
+}
+
+templ ProductList(products []ProductOverview) {
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Nombre</th>
+			<th>Categoria</th>
+		</tr>
+		for _, p := range products {
+			@ProductRow(p)
+		}
+	</table>
+}
+
+templ ProductRow(p ProductOverview) {
+	<tr>
+		<td>{ p.Id }</td>
+		<td>{ p.Name }</td>
+		<td>{ p.Category }</td>
+	</tr>
 }

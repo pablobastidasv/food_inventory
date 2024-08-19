@@ -1,14 +1,15 @@
 package pages
 
-import "github.com/pablobastidasv/fridge_inventory/views/layouts"
-import "github.com/pablobastidasv/fridge_inventory/views/components"
+import (
+	"github.com/pablobastidasv/fridge_inventory/views/components"
+	"github.com/pablobastidasv/fridge_inventory/views/layouts"
+)
 
-
-templ CreateProductPage() {
-    @layouts.Base(){
-        <h1>Crear Producto</h1>
-
-        @components.ProductForm()
-
-    }
+templ CreateProductPage(products []components.ProductOverview) {
+	@layouts.Base() {
+		<h1>Crear Producto</h1>
+		@components.ProductForm()
+		<hr/>
+		@components.ProductList(products)
+	}
 }

@@ -1,6 +1,6 @@
 install:
-	@go install github.com/a-h/templ/cmd/templ@latest
-	@go install github.com/pressly/goose/v3/cmd/goose@latest
+	go install github.com/a-h/templ/cmd/templ@latest
+	go install github.com/pressly/goose/v3/cmd/goose@latest
 
 
 templ:
@@ -28,13 +28,13 @@ migrate/create:
 
 
 migrate/run:
-	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable" GOOSE_MIGRATION_DIR="db/migrations" goose up
+	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321" GOOSE_MIGRATION_DIR="db/migrations" goose up
 
 
 migrate/status:
-	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable" GOOSE_MIGRATION_DIR="db/migrations" goose status
+	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321" GOOSE_MIGRATION_DIR="db/migrations" goose status
 
 
 migrate/reset:
-	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable" GOOSE_MIGRATION_DIR="db/migrations" goose reset
+	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321" GOOSE_MIGRATION_DIR="db/migrations" goose reset
 
