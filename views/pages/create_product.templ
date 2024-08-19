@@ -1,0 +1,14 @@
+package pages
+
+import "github.com/pablobastidasv/fridge_inventory/views/layouts"
+import "github.com/pablobastidasv/fridge_inventory/views/components"
+
+
+templ CreateProductPage() {
+    @layouts.Base(){
+        <h1>Crear Producto</h1>
+
+        @components.ProductForm()
+
+    }
+}

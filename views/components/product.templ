@@ -1,0 +1,11 @@
+package components
+
+templ ProductForm() {
+	<form hx-post="/products">
+		<label for="name">Nombre</label>
+		<input id="name" name="name"/>
+		<label for="category">Categoria</label>
+		<input id="category" name="category"/>
+		<button>Guardar</button>
+	</form>
+}
