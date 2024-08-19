@@ -36,7 +36,7 @@ func GetProductsNew(pl inventorymanager.ProductsLister) echo.HandlerFunc {
 func PostProducts(pc inventorymanager.ProductCreator) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		slog.Debug("request to create product has arrived")
-		_, err := pc.CreateProduct(
+		p, err := pc.CreateProduct(
 			c.Request().Context(),
 			inventorymanager.CreateProductInput{
 				Id:       c.FormValue("id"),
@@ -49,6 +49,13 @@ func PostProducts(pc inventorymanager.ProductCreator) echo.HandlerFunc {
 			return err
 		}
 
-		return Render(c, http.StatusCreated, components.ProductForm())
+		po := components.ProductOverview{
+			Id:       p.Id,
+			Name:     p.Name,
+			Category: p.Category.Name,
+		}
+
+		Render(c, http.StatusCreated, components.ProductForm())
+		return Render(c, http.StatusOK, components.ProductRowOob(po))
 	}
 }

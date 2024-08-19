@@ -20,22 +20,23 @@ templ ProductForm() {
 }
 
 templ ProductList(products []ProductOverview) {
-	<table>
-		<tr>
-			<th>Id</th>
-			<th>Nombre</th>
-			<th>Categoria</th>
-		</tr>
+	<div id="products">
 		for _, p := range products {
 			@ProductRow(p)
 		}
-	</table>
+	</div>
 }
 
 templ ProductRow(p ProductOverview) {
-	<tr>
-		<td>{ p.Id }</td>
-		<td>{ p.Name }</td>
-		<td>{ p.Category }</td>
-	</tr>
+	<div>
+		<span>{ p.Id }</span>
+		<span>{ p.Name }</span>
+		<span>{ p.Category }</span>
+	</div>
+}
+
+templ ProductRowOob(p ProductOverview) {
+	<div id="products" hx-swap-oob="afterbegin">
+		@ProductRow(p)
+	</div>
 }
