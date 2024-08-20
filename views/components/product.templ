@@ -55,7 +55,7 @@ templ ProductRow(p ProductOverview) {
 }
 
 templ ProductRowOob(p ProductOverview) {
-	<div id="products" hx-swap-oob="beforeend">
+	<div id="products" hx-swap-oob="afterbegin">
 		@ProductRow(p)
 	</div>
 }

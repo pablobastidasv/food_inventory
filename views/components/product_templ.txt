@@ -6,5 +6,5 @@
 </span> <span>
 </span> <span>
 </span></div>
-<div id=\"products\" hx-swap-oob=\"beforeend\">
+<div id=\"products\" hx-swap-oob=\"afterbegin\">
 </div>

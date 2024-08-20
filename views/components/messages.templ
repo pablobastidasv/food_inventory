@@ -14,9 +14,17 @@ templ Messages(messages []AlertMessage) {
 }
 
 templ infoMessage(m AlertMessage) {
-	<div class="toast toast-top toast-center">
-		<div class="alert alert-info">
+	<div class="toast toast-top toast-end">
+		<div class="alert alert-success">
 			<span>{ m.Message }</span>
 		</div>
+		<script type="text/javascript">
+        (() => {
+            const parent = document.currentScript.parentNode;
+            setTimeout(() => {
+                parent.classList.add("hidden")
+            }, 1000)
+        })()
+    </script>
 	</div>
 }

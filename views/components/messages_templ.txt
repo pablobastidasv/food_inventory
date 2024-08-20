@@ -1,4 +1,4 @@
 <div id=\"messages\" hx-swap-oob=\"innerHTML\">
 </div>
-<div class=\"toast toast-top toast-center\"><div class=\"alert alert-info\"><span>
-</span></div></div>
+<div class=\"toast toast-top toast-end\"><div class=\"alert alert-success\"><span>
+</span></div><script type=\"text/javascript\">\n        (() => {\n            const parent = document.currentScript.parentNode;\n            setTimeout(() => {\n                parent.classList.add(\"hidden\")\n            }, 1000)\n        })()\n    </script></div>
