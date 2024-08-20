@@ -35,6 +35,6 @@ func main() {
 	e.GET("/products/new", handler.GetProductsNew(manager))
 	e.POST("/products", handler.PostProducts(manager), server.WithTransaction)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8080"))
 
 }

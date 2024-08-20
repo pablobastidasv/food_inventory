@@ -1,3 +1,5 @@
-build/
+tmp/
 
 **/*_templ.go
+
+assets/styles/output.css

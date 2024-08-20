@@ -55,7 +55,8 @@ func PostProducts(pc inventorymanager.ProductCreator) echo.HandlerFunc {
 			Category: p.Category.Name,
 		}
 
+        RenderMessage(c, "INFO", "Producto creado satisfactoriamente")
 		Render(c, http.StatusCreated, components.ProductForm())
-		return Render(c, http.StatusOK, components.ProductRowOob(po))
+		return Render(c, http.StatusCreated, components.ProductRowOob(po))
 	}
 }

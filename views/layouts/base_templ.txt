@@ -1,0 +1,2 @@
+<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Inventario del congelador de Bastriguez</title><script src=\"/statics/js/htmx.min.js\"></script><link href=\"/statics/styles/output.css\" rel=\"stylesheet\"></head><body><div id=\"messages\"></div>
+</body></html>

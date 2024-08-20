@@ -1,18 +1,32 @@
 install:
 	go install github.com/a-h/templ/cmd/templ@latest
 	go install github.com/pressly/goose/v3/cmd/goose@latest
+	go install github.com/air-verse/air@latest
+	go mod vendor
+	go mod tidy
+	go mod download
+	brew install tailwindcss
 
 
 templ:
-	@templ generate
+	@templ generate -watch -proxy=http://localhost:8080/
+
+
+tailwind:
+	@tailwindcss -i assets/styles/input.css -o assets/styles/output.css --watch
+
+
+air:
+	@air
 
 
 build: 
 	@go build -o build/main cmd/webapp/main.go 
 
 
-run: templ docker migrate/run
-	@go run cmd/webapp/main.go 
+run: docker migrate/run
+	make -j 3 templ tailwind air
+
 
 
 test:

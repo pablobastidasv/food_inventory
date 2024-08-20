@@ -1,0 +1,10 @@
+<form hx-post=\"/products\" hx-swap=\"outerHTML\"><div><label for=\"name\">Nombre</label> <input id=\"name\" name=\"name\" required></div><div><label for=\"category\">Categoria</label> <input id=\"category\" name=\"category\" required></div><div><button class=\"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded\">Guardar</button></div><input type=\"hidden\" id=\"id\" name=\"id\" value=\"
+\"></form>
+<div id=\"products\" class=\"grid grid-cols-3\"><span class=\"font-bold\">Id</span> <span class=\"font-bold\">Nombre</span> <span class=\"font-bold\">Categoria</span> 
+</div>
+<span>
+</span> <span>
+</span> <span>
+</span>
+<div id=\"products\" hx-swap-oob=\"beforeend\">
+</div>

@@ -2,25 +2,43 @@ package components
 
 import "github.com/google/uuid"
 
-type ProductOverview struct {
-	Id       string
-	Name     string
-	Category string
-}
+const (
+	INFO  string = "INFO"
+	ERROR        = "ERROR"
+	WARN         = "WARN"
+)
+
+type (
+	ProductOverview struct {
+		Id       string
+		Name     string
+		Category string
+	}
+
+)
 
 templ ProductForm() {
 	<form hx-post="/products" hx-swap="outerHTML">
-		<label for="name">Nombre</label>
-		<input id="name" name="name"/>
-		<label for="category">Categoria</label>
-		<input id="category" name="category"/>
+		<div>
+			<label for="name">Nombre</label>
+			<input id="name" name="name" required/>
+		</div>
+		<div>
+			<label for="category">Categoria</label>
+			<input id="category" name="category" required/>
+		</div>
+		<div>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar</button>
+		</div>
 		<input type="hidden" id="id" name="id" value={ uuid.New().String() }/>
-		<button>Guardar</button>
 	</form>
 }
 
 templ ProductList(products []ProductOverview) {
-	<div id="products">
+	<div id="products" class="grid grid-cols-3">
+		<span class="font-bold">Id</span>
+		<span class="font-bold">Nombre</span>
+		<span class="font-bold">Categoria</span>
 		for _, p := range products {
 			@ProductRow(p)
 		}
@@ -28,15 +46,14 @@ templ ProductList(products []ProductOverview) {
 }
 
 templ ProductRow(p ProductOverview) {
-	<div>
-		<span>{ p.Id }</span>
-		<span>{ p.Name }</span>
-		<span>{ p.Category }</span>
-	</div>
+	<span>{ p.Id }</span>
+	<span>{ p.Name }</span>
+	<span>{ p.Category }</span>
 }
 
 templ ProductRowOob(p ProductOverview) {
-	<div id="products" hx-swap-oob="afterbegin">
+	<div id="products" hx-swap-oob="beforeend">
 		@ProductRow(p)
 	</div>
 }
+
