@@ -3,3 +3,5 @@ tmp/
 **/*_templ.go
 
 assets/styles/output.css
+
+node_modules

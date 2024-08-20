@@ -14,31 +14,32 @@ type (
 		Name     string
 		Category string
 	}
-
 )
 
 templ ProductForm() {
-	<form hx-post="/products" hx-swap="outerHTML">
+	<form hx-post="/products" hx-swap="outerHTML" class="flex flex-1 items-end gap-3 m-4">
 		<div>
 			<label for="name">Nombre</label>
-			<input id="name" name="name" required/>
+			<input id="name" name="name" class="input input-bordered w-full max-w-xs" required/>
 		</div>
 		<div>
 			<label for="category">Categoria</label>
-			<input id="category" name="category" required/>
+			<input id="category" name="category" class="input input-bordered w-full max-w-xs" required/>
 		</div>
 		<div>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar</button>
+			<button class="btn btn-primary">Guardar</button>
 		</div>
 		<input type="hidden" id="id" name="id" value={ uuid.New().String() }/>
 	</form>
 }
 
 templ ProductList(products []ProductOverview) {
-	<div id="products" class="grid grid-cols-3">
+	<div class="grid grid-cols-3 ">
 		<span class="font-bold">Id</span>
 		<span class="font-bold">Nombre</span>
 		<span class="font-bold">Categoria</span>
+	</div>
+	<div id="products">
 		for _, p := range products {
 			@ProductRow(p)
 		}
@@ -46,9 +47,11 @@ templ ProductList(products []ProductOverview) {
 }
 
 templ ProductRow(p ProductOverview) {
-	<span>{ p.Id }</span>
-	<span>{ p.Name }</span>
-	<span>{ p.Category }</span>
+	<div class="grid grid-cols-3">
+		<span>{ p.Id }</span>
+		<span>{ p.Name }</span>
+		<span>{ p.Category }</span>
+	</div>
 }
 
 templ ProductRowOob(p ProductOverview) {
@@ -56,4 +59,3 @@ templ ProductRowOob(p ProductOverview) {
 		@ProductRow(p)
 	</div>
 }
-

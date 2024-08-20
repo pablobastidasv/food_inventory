@@ -1,10 +1,10 @@
-<form hx-post=\"/products\" hx-swap=\"outerHTML\"><div><label for=\"name\">Nombre</label> <input id=\"name\" name=\"name\" required></div><div><label for=\"category\">Categoria</label> <input id=\"category\" name=\"category\" required></div><div><button class=\"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded\">Guardar</button></div><input type=\"hidden\" id=\"id\" name=\"id\" value=\"
+<form hx-post=\"/products\" hx-swap=\"outerHTML\" class=\"flex flex-1 items-end gap-3 m-4\"><div><label for=\"name\">Nombre</label> <input id=\"name\" name=\"name\" class=\"input input-bordered w-full max-w-xs\" required></div><div><label for=\"category\">Categoria</label> <input id=\"category\" name=\"category\" class=\"input input-bordered w-full max-w-xs\" required></div><div><button class=\"btn btn-primary\">Guardar</button></div><input type=\"hidden\" id=\"id\" name=\"id\" value=\"
 \"></form>
-<div id=\"products\" class=\"grid grid-cols-3\"><span class=\"font-bold\">Id</span> <span class=\"font-bold\">Nombre</span> <span class=\"font-bold\">Categoria</span> 
+<div class=\"grid grid-cols-3 \"><span class=\"font-bold\">Id</span> <span class=\"font-bold\">Nombre</span> <span class=\"font-bold\">Categoria</span></div><div id=\"products\">
 </div>
-<span>
+<div class=\"grid grid-cols-3\"><span>
 </span> <span>
 </span> <span>
-</span>
+</span></div>
 <div id=\"products\" hx-swap-oob=\"beforeend\">
 </div>

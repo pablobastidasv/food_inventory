@@ -7,10 +7,11 @@ import (
 
 templ CreateProductPage(products []components.ProductOverview) {
 	@layouts.Base() {
-		<h1>Crear Producto</h1>
-		@components.ProductForm()
-		<hr/>
-		<h1>Productos</h1>
-		@components.ProductList(products)
+		<div>
+			<h1 class="text-3xl">Productos</h1>
+			@components.ProductForm()
+			<hr class="p-1"/>
+			@components.ProductList(products)
+		</div>
 	}
 }
