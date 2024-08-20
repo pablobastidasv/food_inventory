@@ -15,14 +15,24 @@ type (
 	ProductsLister interface {
 		ListProduct(context.Context) ([]types.Product, error)
 	}
+    CategoryLister interface {
+        ListCategories(context.Context) ([]types.Category, error)
+    }
+
+    
+    InventoryManager interface {
+        ProductCreator
+        ProductsLister
+        CategoryLister
+    }
 )
 
-type InventoryManager struct {
+type inventoryManager struct {
 	store storage.Store
 }
 
-func New(store storage.Store) *InventoryManager {
-	return &InventoryManager{
+func New(store storage.Store) InventoryManager {
+	return &inventoryManager{
 		store: store,
 	}
 }
@@ -33,7 +43,7 @@ type CreateProductInput struct {
 	Category string
 }
 
-func (m *InventoryManager) CreateProduct(c context.Context, input CreateProductInput) (types.Product, error) {
+func (m *inventoryManager) CreateProduct(c context.Context, input CreateProductInput) (types.Product, error) {
 	slog.Debug("Create product Use Case")
 
 	categoryCode := input.Category
@@ -55,6 +65,10 @@ func (m *InventoryManager) CreateProduct(c context.Context, input CreateProductI
 	return product, nil
 }
 
-func (m *InventoryManager) ListProduct(c context.Context) ([]types.Product, error){
+func (m *inventoryManager) ListProduct(c context.Context) ([]types.Product, error){
     return m.store.ListProducts(c)
+}
+
+func (m *inventoryManager) ListCategories(c context.Context) ([]types.Category, error){
+    return m.store.ListCategories(c)
 }

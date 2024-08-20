@@ -76,7 +76,43 @@ func (s *PostgresStore) ListProducts(c context.Context) ([]types.Product, error)
 		); err != nil {
 			return nil, err
 		}
-        prods = append(prods, prod)
+		prods = append(prods, prod)
 	}
 	return prods, nil
+}
+
+func (s *PostgresStore) ListCategories(c context.Context) ([]types.Category, error) {
+	query := "select c.code, c.name, p.code, p.name from categories c left join categories p on c.parent = p.code"
+	rows, err := s.db.QueryContext(c, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	categories := []types.Category{}
+	for rows.Next() {
+		var category types.Category
+		var parentCode *string
+		var parentName *string
+
+		if err := rows.Scan(
+			&category.Code,
+			&category.Name,
+			&parentCode,
+			&parentName,
+		); err != nil {
+			return nil, err
+		}
+
+		if parentCode != nil {
+			category.Parent = &types.Category{
+				Code: *parentCode,
+				Name: *parentName,
+			}
+		}
+
+		categories = append(categories, category)
+	}
+
+	return categories, nil
 }

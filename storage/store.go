@@ -7,7 +7,9 @@ import (
 )
 
 type Store interface {
-	FindCategory(context.Context, string) (*types.Category, error)
 	SaveProduct(context.Context, types.Product) error
 	ListProducts(context.Context) ([]types.Product, error)
+
+	FindCategory(context.Context, string) (*types.Category, error)
+	ListCategories(context.Context) ([]types.Category, error)
 }

@@ -17,12 +17,12 @@ create table products(
 
 insert into categories(code, name, parent) values
     ('VEGETABLES', 'Vegetales', null),
-    ('CARNE', 'Carne', null),
-    ('FRITOS', 'Frituras', null),
-    ('FRUTAS', 'Frutas', null),
-    ('CERDO', 'Cerdo', 'CARNE'),
-    ('RES', 'Res', 'CARNE'),
-    ('POLLO', 'Pollo', 'CARNE')
+    ('MEAT', 'Carne', null),
+    ('FRIED_FOOD', 'Frituras', null),
+    ('FRUITS', 'Frutas', null),
+    ('PORK', 'Cerdo', 'MEAT'),
+    ('BEEF', 'Res', 'MEAT'),
+    ('CHICKEN', 'Pollo', 'MEAT')
 ;
 
 -- +goose Down

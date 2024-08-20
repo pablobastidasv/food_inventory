@@ -10,7 +10,7 @@ import (
 	"github.com/pablobastidasv/fridge_inventory/views/pages"
 )
 
-func GetProductsNew(pl inventorymanager.ProductsLister) echo.HandlerFunc {
+func GetProducts(pl inventorymanager.ProductsLister) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var products []components.ProductOverview
 
@@ -29,11 +29,11 @@ func GetProductsNew(pl inventorymanager.ProductsLister) echo.HandlerFunc {
 			})
 		}
 
-		return Render(c, http.StatusOK, pages.CreateProductPage(products))
+		return Render(c, http.StatusOK, pages.ProductsPage(products))
 	}
 }
 
-func PostProducts(pc inventorymanager.ProductCreator) echo.HandlerFunc {
+func PostProducts(pc inventorymanager.ProductCreator, cl inventorymanager.CategoryLister) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		slog.Debug("request to create product has arrived")
 		p, err := pc.CreateProduct(
@@ -55,8 +55,34 @@ func PostProducts(pc inventorymanager.ProductCreator) echo.HandlerFunc {
 			Category: p.Category.Name,
 		}
 
-        RenderMessage(c, "INFO", "Producto creado satisfactoriamente")
-		Render(c, http.StatusCreated, components.ProductForm())
+		RenderMessage(c, "INFO", "Producto creado satisfactoriamente")
+		renderProductForm(c, cl)
+
 		return Render(c, http.StatusCreated, components.ProductRowOob(po))
 	}
+}
+
+func GetProductsForm(cl inventorymanager.CategoryLister) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		return renderProductForm(c, cl)
+	}
+}
+
+func renderProductForm(ctx echo.Context, cl inventorymanager.CategoryLister) error {
+	categoryList, err := cl.ListCategories(ctx.Request().Context())
+	if err != nil {
+		return err
+	}
+
+    categories := []components.Category{}
+    for _, c := range categoryList{
+        category := components.Category{
+        	Id:   c.Code,
+        	Name: c.Name,
+        }
+        categories = append(categories, category)
+    }
+
+	return Render(ctx, http.StatusOK, components.ProductForm(categories))
+
 }

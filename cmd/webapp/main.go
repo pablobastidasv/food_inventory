@@ -21,7 +21,6 @@ func main() {
 	// e.Use(middleware.Logger())
     e.Use(middleware.Recover())
 
-
 	connStr := "host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -32,8 +31,9 @@ func main() {
 	store := postgres.New(db)
 	manager := inventorymanager.New(store)
 
-	e.GET("/products/new", handler.GetProductsNew(manager))
-	e.POST("/products", handler.PostProducts(manager), server.WithTransaction)
+	e.GET("/products", handler.GetProducts(manager))
+	e.POST("/products", handler.PostProducts(manager, manager), server.WithTransaction)
+	e.GET("/products/new", handler.GetProductsForm(manager))
 
 	e.Logger.Fatal(e.Start(":8080"))
 

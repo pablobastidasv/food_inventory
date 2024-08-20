@@ -14,17 +14,27 @@ type (
 		Name     string
 		Category string
 	}
+
+	Category struct {
+		Id   string
+		Name string
+	}
 )
 
-templ ProductForm() {
-	<form hx-post="/products" hx-swap="outerHTML" class="flex flex-1 items-end gap-3 m-4">
+templ ProductForm(categories []Category) {
+	<form hx-post="/products" hx-swap="outerHTML" class="flex flex-1 items-end gap-3 m-4" autocomplete="off">
 		<div>
 			<label for="name">Nombre</label>
-			<input id="name" name="name" class="input input-bordered w-full max-w-xs" required/>
+			<input id="name" name="name" class="input input-bordered w-full max-w-xs" required autofocus/>
 		</div>
 		<div>
 			<label for="category">Categoria</label>
-			<input id="category" name="category" class="input input-bordered w-full max-w-xs" required/>
+			<select name="category" class="select select-bordered w-full max-w-xs" required>
+				<option value="">-- Seleccione una categoria --</option>
+				for _, c := range categories {
+					<option value={ c.Id }>{ c.Name }</option>
+				}
+			</select>
 		</div>
 		<div>
 			<button class="btn btn-primary">Guardar</button>
