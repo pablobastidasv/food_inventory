@@ -1,5 +1,6 @@
 tmp/
 
+vendor/
 **/*_templ.go
 
 assets/styles/output.css

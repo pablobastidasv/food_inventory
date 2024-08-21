@@ -1,2 +1,0 @@
-<div><h1 class=\"text-3xl\">Productos</h1><div hx-get=\"/products/new\" hx-swap=\"outerHTML\" hx-trigger=\"load\"></div><hr class=\"p-1\">
-</div>
