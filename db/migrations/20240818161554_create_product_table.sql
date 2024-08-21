@@ -15,16 +15,6 @@ create table products(
   constraint fk_products_categories FOREIGN KEY(category_code) REFERENCES categories(code)
 );
 
-insert into categories(code, name, parent) values
-    ('VEGETABLES', 'Vegetales', null),
-    ('MEAT', 'Carne', null),
-    ('FRIED_FOOD', 'Frituras', null),
-    ('FRUITS', 'Frutas', null),
-    ('PORK', 'Cerdo', 'MEAT'),
-    ('BEEF', 'Res', 'MEAT'),
-    ('CHICKEN', 'Pollo', 'MEAT')
-;
-
 -- +goose Down
 ALTER TABLE products
      drop constraint fk_products_categories;
