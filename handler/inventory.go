@@ -10,6 +10,11 @@ import (
 	"github.com/pablobastidasv/fridge_inventory/views/pages"
 )
 
+type PostProductDeps interface {
+	inventorymanager.CategoryLister
+	inventorymanager.ProductCreator
+}
+
 func GetProducts(pl inventorymanager.ProductsLister) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var products []components.ProductOverview
@@ -33,10 +38,10 @@ func GetProducts(pl inventorymanager.ProductsLister) echo.HandlerFunc {
 	}
 }
 
-func PostProducts(pc inventorymanager.ProductCreator, cl inventorymanager.CategoryLister) echo.HandlerFunc {
+func PostProducts(d PostProductDeps) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		slog.Debug("request to create product has arrived")
-		p, err := pc.CreateProduct(
+		p, err := d.CreateProduct(
 			c.Request().Context(),
 			inventorymanager.CreateProductInput{
 				Id:       c.FormValue("id"),
@@ -56,7 +61,7 @@ func PostProducts(pc inventorymanager.ProductCreator, cl inventorymanager.Catego
 		}
 
 		RenderMessage(c, "INFO", "Producto creado satisfactoriamente")
-		renderProductForm(c, cl)
+		renderProductForm(c, d)
 
 		return Render(c, http.StatusCreated, components.ProductRowOob(po))
 	}
@@ -74,14 +79,14 @@ func renderProductForm(ctx echo.Context, cl inventorymanager.CategoryLister) err
 		return err
 	}
 
-    categories := []components.Category{}
-    for _, c := range categoryList{
-        category := components.Category{
-        	Id:   c.Code,
-        	Name: c.Name,
-        }
-        categories = append(categories, category)
-    }
+	categories := []components.Category{}
+	for _, c := range categoryList {
+		category := components.Category{
+			Id:   c.Code,
+			Name: c.Name,
+		}
+		categories = append(categories, category)
+	}
 
 	return Render(ctx, http.StatusOK, components.ProductForm(categories))
 

@@ -32,7 +32,7 @@ func main() {
 	manager := inventorymanager.New(store)
 
 	e.GET("/products", handler.GetProducts(manager))
-	e.POST("/products", handler.PostProducts(manager, manager), server.WithTransaction)
+	e.POST("/products", handler.PostProducts(manager), server.WithTransaction)
 	e.GET("/products/new", handler.GetProductsForm(manager))
 
 	e.Logger.Fatal(e.Start(":8080"))
