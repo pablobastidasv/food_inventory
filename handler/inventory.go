@@ -24,7 +24,6 @@ func GetProducts(pl inventorymanager.ProductsLister) echo.HandlerFunc {
 			return err
 		}
 
-		slog.Info("products to list", "products", list)
 		products = []components.ProductOverview{}
 		for _, p := range list {
 			products = append(products, components.ProductOverview{

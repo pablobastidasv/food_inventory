@@ -2,7 +2,10 @@ package main
 
 import (
 	"database/sql"
+	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/pablobastidasv/fridge_inventory/handler"
@@ -12,16 +15,20 @@ import (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	e := echo.New()
 
 	e.Static("/statics", "assets")
 
-    
 	// Middleware
-	// e.Use(middleware.Logger())
-    e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
-	connStr := "postgresql://postgres:password@localhost:54321/postgres?sslmode=disable"
+	connStr := os.Getenv("DBSTRING") //"postgresql://postgres:password@localhost:54321/postgres?sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)

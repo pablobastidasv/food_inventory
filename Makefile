@@ -1,13 +1,14 @@
 include .env
 
+# Env vars used by goose app when running database migrations 
+export GOOSE_DRIVER:=postgres
+export GOOSE_DBSTRING:=$(DBSTRING)
+export GOOSE_MIGRATION_DIR:=db/migrations
+
 install:
 	go install github.com/a-h/templ/cmd/templ@latest
 	go install github.com/pressly/goose/v3/cmd/goose@latest
 	go install github.com/air-verse/air@latest
-	go mod vendor
-	go mod tidy
-	go mod download
-	npm install
 
 
 templ:
@@ -20,10 +21,6 @@ tailwind:
 
 air:
 	@air
-
-
-build: 
-	@go build -o build/main cmd/webapp/main.go 
 
 
 run: docker migrate/run
@@ -57,7 +54,6 @@ migrate/reset:
 # apk add --no-cache make
 # apk add --update nodejs npm
 build:
-	@make install
 	@templ generate
 	@npx tailwindcss -i assets/styles/input.css -o assets/styles/output.css --minify
 	@CGO_ENABLED=0; go build -o tmp/main cmd/webapp/main.go

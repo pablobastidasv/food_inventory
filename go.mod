@@ -5,6 +5,7 @@ go 1.21.3
 require (
 	github.com/a-h/templ v0.2.747
 	github.com/google/uuid v1.6.0
+	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/lib/pq v1.10.9
 )
