@@ -1,11 +1,14 @@
+include .env
+
+# Env vars used by goose app when running database migrations 
+export GOOSE_DRIVER:=postgres
+export GOOSE_DBSTRING:=$(DBSTRING)
+export GOOSE_MIGRATION_DIR:=db/migrations
+
 install:
 	go install github.com/a-h/templ/cmd/templ@latest
 	go install github.com/pressly/goose/v3/cmd/goose@latest
 	go install github.com/air-verse/air@latest
-	go mod vendor
-	go mod tidy
-	go mod download
-	brew install tailwindcss
 
 
 templ:
@@ -13,20 +16,15 @@ templ:
 
 
 tailwind:
-	@tailwindcss -i assets/styles/input.css -o assets/styles/output.css --watch
+	@npx tailwindcss -i assets/styles/input.css -o assets/styles/output.css --watch
 
 
 air:
 	@air
 
 
-build: 
-	@go build -o build/main cmd/webapp/main.go 
-
-
 run: docker migrate/run
 	make -j 3 templ tailwind air
-
 
 
 test:
@@ -38,17 +36,25 @@ docker:
 
 	
 migrate/create: 
-	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="user=postgres dbname=postgres sslmode=disable" GOOSE_MIGRATION_DIR="db/migrations" goose create $(name) sql
+	@goose create $(name) sql
 
 
 migrate/run:
-	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321" GOOSE_MIGRATION_DIR="db/migrations" goose up
+	@goose up
 
 
 migrate/status:
-	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321" GOOSE_MIGRATION_DIR="db/migrations" goose status
+	@goose status
 
 
 migrate/reset:
-	@GOOSE_DRIVER=postgres GOOSE_DBSTRING="host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321" GOOSE_MIGRATION_DIR="db/migrations" goose reset
+	@goose reset
+
+
+# apk add --no-cache make
+# apk add --update nodejs npm
+build:
+	@templ generate
+	@npx tailwindcss -i assets/styles/input.css -o assets/styles/output.css --minify
+	@CGO_ENABLED=0; go build -o tmp/main cmd/webapp/main.go
 

@@ -1,6 +1,7 @@
 {
 	"devDependencies": {
-		"daisyui": "^4.12.10"
+		"daisyui": "^4.12.10",
+		"tailwindcss": "^3.4.10"
 	},
 	"packageManager": "pnpm@9.5.0+sha1.8c155dc114e1689d18937974f6571e0ceee66f1d"
 }
