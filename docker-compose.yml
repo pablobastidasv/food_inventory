@@ -6,11 +6,12 @@ services:
     environment:
       POSTGRES_PASSWORD: password
 
-  # app:
-  #   build: .
-  #   ports:
-  #     - "8090:8080"
-  #   environment:
-  #     DBSTRING: postgresql://postgres:password@db/postgres?sslmode=disable
+  app:
+    build: .
+    ports:
+      - "8090:8080"
+    env_file: "docker.env"
+    environment:
+      DBSTRING: postgresql://postgres:password@db/postgres?sslmode=disable
       
     

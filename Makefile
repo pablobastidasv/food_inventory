@@ -1,4 +1,7 @@
-include .env
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
 
 # Env vars used by goose app when running database migrations 
 export GOOSE_DRIVER:=postgres
@@ -32,7 +35,7 @@ test:
 
 
 docker:
-	@docker compose up -d
+	@docker compose up db -d
 
 	
 migrate/create: 

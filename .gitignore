@@ -6,3 +6,5 @@ vendor/
 assets/styles/output.css
 
 node_modules
+
+.env
