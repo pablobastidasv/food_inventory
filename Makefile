@@ -43,6 +43,8 @@ migrate/create:
 
 
 migrate/run:
+	@echo ${DBSTRING}
+	@echo $GOOSE_DBSTRING
 	@goose up
 
 
