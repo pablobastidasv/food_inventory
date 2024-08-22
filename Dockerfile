@@ -24,7 +24,7 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=build_stage /build/tmp/main main
-COPY assets assets
+COPY --from=build_stage /build/assets assets
 
 EXPOSE 8080
 
