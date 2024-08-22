@@ -8,7 +8,6 @@ RUN apk add --update nodejs npm
 COPY go.mod go.mod 
 COPY package.json package.json
 COPY Makefile Makefile
-COPY .env .env
 
 RUN go mod download
 RUN npm install
