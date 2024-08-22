@@ -21,7 +21,7 @@ func main() {
 	// e.Use(middleware.Logger())
     e.Use(middleware.Recover())
 
-	connStr := "host=localhost user=postgres dbname=postgres password=password sslmode=disable port=54321"
+	connStr := "postgresql://postgres:password@localhost:54321/postgres?sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)
@@ -36,5 +36,4 @@ func main() {
 	e.GET("/products/new", handler.GetProductsForm(manager))
 
 	e.Logger.Fatal(e.Start(":8080"))
-
 }
