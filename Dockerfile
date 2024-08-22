@@ -26,7 +26,6 @@ WORKDIR /app
 
 COPY --from=build_stage /build/tmp/main main
 COPY assets assets
-COPY .env .env
 
 EXPOSE 8080
 
