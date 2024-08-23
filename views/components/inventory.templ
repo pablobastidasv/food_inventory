@@ -1,0 +1,28 @@
+package components
+
+templ InventoryItem() {
+	<div class="card bg-base-100 w-96 shadow-xl">
+		<div class="card-body" hx-target="closest div" hx-swap="innerHTML">
+			<h2 class="card-title">Cerdo tiritas</h2>
+			<div class="flex justify-center w-auto">
+				@InventoryValue()
+			</div>
+		</div>
+	</div>
+}
+
+templ InventoryItemForm() {
+	<form hx-get="/inventories/1">
+		<div>
+			<label for="ammount"></label>
+			<input id="ammount"/>
+		</div>
+		<button>Guardar</button>
+	</form>
+}
+
+templ InventoryValue() {
+	<span class="text-right text-5xl" hx-get="/inventories/1/edit">
+		5
+	</span>
+}

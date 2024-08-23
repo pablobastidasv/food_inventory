@@ -1,0 +1,26 @@
+package pages
+
+import (
+	"github.com/pablobastidasv/fridge_inventory/views/components"
+	"github.com/pablobastidasv/fridge_inventory/views/layouts"
+	"github.com/pablobastidasv/fridge_inventory/views/shared"
+)
+
+templ InventoryPage() {
+	@layouts.Base() {
+        @shared.H1("Inventario")
+		<div class="flex flex-row gap-2 flex-wrap">
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+			@components.InventoryItem()
+		</div>
+	}
+}
