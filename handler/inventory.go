@@ -90,3 +90,10 @@ func renderProductForm(ctx echo.Context, cl inventorymanager.CategoryLister) err
 	return Render(ctx, http.StatusOK, components.ProductForm(categories))
 
 }
+
+func DeleteProduct() echo.HandlerFunc {
+    return func(c echo.Context) error {
+        _ = c.Param("id")
+        return c.String(200, "")
+    }
+}

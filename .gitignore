@@ -4,6 +4,7 @@ vendor/
 **/*_templ.go
 
 assets/styles/output.css
+assets/styles/styles.css
 
 node_modules
 

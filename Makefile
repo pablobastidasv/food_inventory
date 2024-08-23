@@ -19,7 +19,7 @@ templ:
 
 
 tailwind:
-	@npx tailwindcss -i assets/styles/input.css -o assets/styles/output.css --watch
+	@npx tailwindcss -i assets/styles/my-styles.css -o assets/styles/styles.css --watch
 
 
 air:
@@ -58,6 +58,6 @@ migrate/reset:
 # apk add --update nodejs npm
 build:
 	@templ generate
-	@npx tailwindcss -i assets/styles/input.css -o assets/styles/output.css --minify
+	@npx tailwindcss -i assets/styles/my-styles.css -o assets/styles/styles.css --minify
 	@CGO_ENABLED=0; go build -o tmp/main cmd/webapp/main.go
 

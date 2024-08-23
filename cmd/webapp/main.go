@@ -38,9 +38,11 @@ func main() {
 	store := postgres.New(db)
 	manager := inventorymanager.New(store)
 
-	e.GET("/products", handler.GetProducts(manager))
-	e.POST("/products", handler.PostProducts(manager), server.WithTransaction)
-	e.GET("/products/new", handler.GetProductsForm(manager))
+    prdGroup := e.Group("/products")
+	prdGroup.GET("", handler.GetProducts(manager))
+	prdGroup.POST("/", handler.PostProducts(manager), server.WithTransaction)
+	prdGroup.GET("/new", handler.GetProductsForm(manager))
+    prdGroup.DELETE("/:id", handler.DeleteProduct(), server.WithTransaction)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
