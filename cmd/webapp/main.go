@@ -40,9 +40,9 @@ func main() {
 
     prdGroup := e.Group("/products")
 	prdGroup.GET("", handler.GetProducts(manager))
-	prdGroup.POST("/", handler.PostProducts(manager), server.WithTransaction)
+	prdGroup.POST("", handler.PostProducts(manager), server.WithTransaction)
 	prdGroup.GET("/new", handler.GetProductsForm(manager))
-    prdGroup.DELETE("/:id", handler.DeleteProduct(), server.WithTransaction)
+    prdGroup.DELETE("/:id", handler.DeleteProduct(manager), server.WithTransaction)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

@@ -116,3 +116,13 @@ func (s *PostgresStore) ListCategories(c context.Context) ([]types.Category, err
 
 	return categories, nil
 }
+
+func (s *PostgresStore) DeleteProduct(ctx context.Context, id string) error {
+	query := "delete from products p where p.id = $1"
+	_, err := s.db.ExecContext(ctx, query, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

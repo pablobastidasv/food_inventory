@@ -91,9 +91,14 @@ func renderProductForm(ctx echo.Context, cl inventorymanager.CategoryLister) err
 
 }
 
-func DeleteProduct() echo.HandlerFunc {
-    return func(c echo.Context) error {
-        _ = c.Param("id")
-        return c.String(200, "")
-    }
+func DeleteProduct(pd inventorymanager.ProductDeleter) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := c.Param("id")
+
+		if err := pd.DeleteProduct(c.Request().Context(), id); err != nil {
+			return err
+		}
+
+		return c.String(200, "")
+	}
 }

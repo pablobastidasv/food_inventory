@@ -78,5 +78,4 @@ func (m *inventoryManager) ListCategories(c context.Context) ([]types.Category, 
 
 func (m *inventoryManager) DeleteProduct(ctx context.Context, id string) error {
 	return m.store.DeleteProduct(ctx, id)
-
 }
