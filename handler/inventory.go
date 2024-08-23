@@ -90,3 +90,15 @@ func renderProductForm(ctx echo.Context, cl inventorymanager.CategoryLister) err
 	return Render(ctx, http.StatusOK, components.ProductForm(categories))
 
 }
+
+func DeleteProduct(pd inventorymanager.ProductDeleter) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := c.Param("id")
+
+		if err := pd.DeleteProduct(c.Request().Context(), id); err != nil {
+			return err
+		}
+
+		return c.String(200, "")
+	}
+}

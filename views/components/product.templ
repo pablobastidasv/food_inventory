@@ -1,6 +1,10 @@
 package components
 
-import "github.com/google/uuid"
+import (
+	"fmt"
+	"github.com/google/uuid"
+	"github.com/pablobastidasv/fridge_inventory/views/icons"
+)
 
 const (
 	INFO  string = "INFO"
@@ -22,14 +26,14 @@ type (
 )
 
 templ ProductForm(categories []Category) {
-	<form hx-post="/products" hx-swap="outerHTML" class="flex flex-1 items-end gap-3 m-4" autocomplete="off">
-		<div>
+	<form hx-post="/products" hx-swap="outerHTML" class="flex flex-col gap-3 m-4" autocomplete="off">
+		<div class="flex flex-col">
 			<label for="name">Nombre</label>
-			<input id="name" name="name" class="input input-bordered w-full max-w-xs" required autofocus/>
+			<input id="name" name="name" class="input input-bordered max-w-md " required autofocus/>
 		</div>
-		<div>
+		<div class="flex flex-col">
 			<label for="category">Categoria</label>
-			<select name="category" class="select select-bordered w-full max-w-xs" required>
+			<select name="category" class="select select-bordered max-w-md" required>
 				<option value="">-- Seleccione una categoria --</option>
 				for _, c := range categories {
 					<option value={ c.Id }>{ c.Name }</option>
@@ -45,11 +49,10 @@ templ ProductForm(categories []Category) {
 
 templ ProductList(products []ProductOverview) {
 	<div class="grid grid-cols-3 ">
-		<span class="font-bold">Id</span>
 		<span class="font-bold">Nombre</span>
 		<span class="font-bold">Categoria</span>
 	</div>
-	<div id="products">
+	<div id="products" hx-target="closest div" hx-swap="outerHTML swap:1s" hx-confirm="Procedemos eliminando el Producto?">
 		for _, p := range products {
 			@ProductRow(p)
 		}
@@ -57,10 +60,14 @@ templ ProductList(products []ProductOverview) {
 }
 
 templ ProductRow(p ProductOverview) {
-	<div class="grid grid-cols-3">
-		<span>{ p.Id }</span>
+	<div class="grid grid-cols-3 mt-1">
 		<span>{ p.Name }</span>
 		<span>{ p.Category }</span>
+		<span>
+			<a hx-delete={ fmt.Sprintf("/products/%s", p.Id) }>
+				@icons.Trash()
+			</a>
+		</span>
 	</div>
 }
 

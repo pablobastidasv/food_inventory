@@ -15,16 +15,19 @@ type (
 	ProductsLister interface {
 		ListProduct(context.Context) ([]types.Product, error)
 	}
-    CategoryLister interface {
-        ListCategories(context.Context) ([]types.Category, error)
-    }
+	CategoryLister interface {
+		ListCategories(context.Context) ([]types.Category, error)
+	}
+	ProductDeleter interface {
+		DeleteProduct(context.Context, string) error
+	}
 
-    
-    InventoryManager interface {
-        ProductCreator
-        ProductsLister
-        CategoryLister
-    }
+	InventoryManager interface {
+		ProductCreator
+		ProductsLister
+        ProductDeleter
+		CategoryLister
+	}
 )
 
 type inventoryManager struct {
@@ -65,10 +68,14 @@ func (m *inventoryManager) CreateProduct(c context.Context, input CreateProductI
 	return product, nil
 }
 
-func (m *inventoryManager) ListProduct(c context.Context) ([]types.Product, error){
-    return m.store.ListProducts(c)
+func (m *inventoryManager) ListProduct(c context.Context) ([]types.Product, error) {
+	return m.store.ListProducts(c)
 }
 
-func (m *inventoryManager) ListCategories(c context.Context) ([]types.Category, error){
-    return m.store.ListCategories(c)
+func (m *inventoryManager) ListCategories(c context.Context) ([]types.Category, error) {
+	return m.store.ListCategories(c)
+}
+
+func (m *inventoryManager) DeleteProduct(ctx context.Context, id string) error {
+	return m.store.DeleteProduct(ctx, id)
 }

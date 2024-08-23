@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+div.htmx-swapping span {
+    opacity: 0;
+    margin-top: -100%;
+    transition: margin-top 1s ease-out, opacity 1s ease-out;
+}
