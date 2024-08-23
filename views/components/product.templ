@@ -65,7 +65,7 @@ templ ProductRow(p ProductOverview) {
 		<span>{ p.Category }</span>
 		<span>
 			<a hx-delete={ fmt.Sprintf("/products/%s", p.Id) }>
-				@icons.Trash()
+				@icons.Trash("red")
 			</a>
 		</span>
 	</div>

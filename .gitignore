@@ -2,6 +2,7 @@ tmp/
 
 vendor/
 **/*_templ.go
+**/*_templ.txt
 
 assets/styles/output.css
 assets/styles/styles.css
