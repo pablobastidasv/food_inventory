@@ -8,6 +8,18 @@ import (
 )
 
 type (
+	UpdateInventoryItemInput struct {
+		Id      string
+		Amount int
+	}
+	CreateProductInput struct {
+		Id       string
+		Name     string
+		Category string
+	}
+)
+
+type (
 	ProductCreator interface {
 		CreateProduct(context.Context, CreateProductInput) (types.Product, error)
 	}
@@ -21,16 +33,24 @@ type (
 		DeleteProduct(context.Context, string) error
 	}
 
-    InventoryItemsLister interface {
-        ListInventoryItems(context.Context) ([]types.InventoryItem, error)
-    }
+	InventoryItemsLister interface {
+		ListInventoryItems(context.Context) ([]types.InventoryItem, error)
+	}
+	InventoryItemFinder interface {
+		FindInventoryItemById(context.Context, string) (*types.InventoryItem, error)
+	}
+	InventoryItemUpdater interface {
+		UpdateInventoryItem(context.Context, UpdateInventoryItemInput) error
+	}
 
 	InventoryManager interface {
 		ProductCreator
 		ProductsLister
-        ProductDeleter
+		ProductDeleter
 		CategoryLister
-        InventoryItemsLister
+		InventoryItemsLister
+		InventoryItemFinder
+		InventoryItemUpdater
 	}
 )
 
@@ -43,4 +63,3 @@ func New(store storage.Store) InventoryManager {
 		store: store,
 	}
 }
-
