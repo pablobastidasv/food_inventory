@@ -11,3 +11,9 @@ type Category struct {
 	Name   string
 	Parent *Category
 }
+
+type InventoryItem struct {
+	Id      string
+	Product Product
+	Ammount int
+}

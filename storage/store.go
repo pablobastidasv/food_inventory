@@ -9,8 +9,10 @@ import (
 type Store interface {
 	SaveProduct(context.Context, types.Product) error
 	ListProducts(context.Context) ([]types.Product, error)
-    DeleteProduct(context.Context, string) (error)
+	DeleteProduct(context.Context, string) error
 
 	FindCategory(context.Context, string) (*types.Category, error)
 	ListCategories(context.Context) ([]types.Category, error)
+
+	ListInventoryItems(context.Context) ([]types.InventoryItem, error)
 }

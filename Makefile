@@ -54,6 +54,10 @@ migrate/reset:
 	@goose reset
 
 
+migrate/down:
+	@goose down
+
+
 # apk add --no-cache make
 # apk add --update nodejs npm
 build:

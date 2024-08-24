@@ -38,10 +38,11 @@ func main() {
 	store := postgres.New(db)
 	manager := inventorymanager.New(store)
 
-    e.GET("/", handler.GetInventory())
+    e.GET("/", handler.GetMainIndex())
 
     invGroup := e.Group("/inventories")
-    invGroup.GET("/:id", handler.GetInventoryItem())
+    invGroup.GET("", handler.GetInventoryItems(manager))
+    invGroup.PUT("/:id", handler.PutInventory())
     invGroup.GET("/:id/edit", handler.GetInventoryForm())
 
     prdGroup := e.Group("/products")

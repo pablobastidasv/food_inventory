@@ -1,28 +1,46 @@
 package components
 
-templ InventoryItem() {
+import "github.com/pablobastidasv/fridge_inventory/views/icons"
+
+type InventoryInfo struct {
+	Id          string
+	ProductName string
+	Ammount     string
+}
+
+templ InventoryItems(items []InventoryInfo) {
+	<div class="flex flex-row gap-2 flex-wrap">
+		for _, i := range items {
+			@InventoryItem(i)
+		}
+	</div>
+}
+
+templ InventoryItem(item InventoryInfo) {
 	<div class="card bg-base-100 w-96 shadow-xl">
 		<div class="card-body" hx-target="closest div" hx-swap="innerHTML">
-			<h2 class="card-title">Cerdo tiritas</h2>
+			<h2 class="card-title">{ item.ProductName }</h2>
 			<div class="flex justify-center w-auto">
-				@InventoryValue()
+				@InventoryValue(item.Id, item.Ammount)
 			</div>
 		</div>
 	</div>
 }
 
 templ InventoryItemForm() {
-	<form hx-get="/inventories/1">
+	<form hx-put="/inventories/1" class="flex flex-row items-center gap-3">
 		<div>
-			<label for="ammount"></label>
-			<input id="ammount"/>
+			<input type="number" class="text-center input max-w-32 text-5xl p-0" value="99" autofocus/>
 		</div>
-		<button>Guardar</button>
+		<button>
+			@icons.Floopy()
+		</button>
 	</form>
 }
 
-templ InventoryValue() {
-	<span class="text-right text-5xl" hx-get="/inventories/1/edit">
-		5
+templ InventoryValue(id string, ammount string) {
+	<span class="text-right text-5xl">
+		// hx-get={ fmt.Sprintf("/inventories/%s/edit", id) }>
+		{ ammount }
 	</span>
 }
