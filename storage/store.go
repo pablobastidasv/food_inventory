@@ -15,4 +15,6 @@ type Store interface {
 	ListCategories(context.Context) ([]types.Category, error)
 
 	ListInventoryItems(context.Context) ([]types.InventoryItem, error)
+	FindInventoryItemById(context.Context, string) (*types.InventoryItem, error)
+	UpdateInventoryItem(context.Context, string, int) error
 }

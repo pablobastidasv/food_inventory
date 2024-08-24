@@ -7,12 +7,6 @@ import (
 	"github.com/pablobastidasv/fridge_inventory/types"
 )
 
-type CreateProductInput struct {
-	Id       string
-	Name     string
-	Category string
-}
-
 func (m *inventoryManager) CreateProduct(c context.Context, input CreateProductInput) (types.Product, error) {
 	slog.Debug("Create product Use Case")
 

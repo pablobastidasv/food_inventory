@@ -15,5 +15,5 @@ type Category struct {
 type InventoryItem struct {
 	Id      string
 	Product Product
-	Ammount int
+	Amount int
 }

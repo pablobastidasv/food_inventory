@@ -130,14 +130,15 @@ func (s *PostgresStore) DeleteProduct(ctx context.Context, id string) error {
 func (s *PostgresStore) ListInventoryItems(c context.Context) ([]types.InventoryItem, error) {
 	query := `
         select 
-            ii.id, ii.ammount ,
-            p.id , p."name" ,
+            ii.id, ii.amount ,
+            p.id , p.name,
             c.code, c.name,
             cp.code, cp."name" 
         from inventory_items ii 
         join products p on ii.product_id = p.id 
         join categories c on p.category_code = c.code 
         left join categories cp on c.parent = cp.code
+        order by p.name
     `
 	rows, err := s.db.QueryContext(c, query)
 	if err != nil {
@@ -153,7 +154,7 @@ func (s *PostgresStore) ListInventoryItems(c context.Context) ([]types.Inventory
 
 		if err := rows.Scan(
 			&i.Id,
-			&i.Ammount,
+			&i.Amount,
 			&i.Product.Id,
 			&i.Product.Name,
 			&i.Product.Category.Code,
@@ -164,15 +165,69 @@ func (s *PostgresStore) ListInventoryItems(c context.Context) ([]types.Inventory
 			return nil, err
 		}
 
-        if categoryParentCode != nil {
-            i.Product.Category.Parent = &types.Category{
-            	Code:   *categoryParentCode,
-            	Name:   *categoryParentName,
-            }
-        }
+		if categoryParentCode != nil {
+			i.Product.Category.Parent = &types.Category{
+				Code: *categoryParentCode,
+				Name: *categoryParentName,
+			}
+		}
 
-        items = append(items, i) 
+		items = append(items, i)
 	}
 
 	return items, nil
+}
+
+func (s *PostgresStore) FindInventoryItemById(ctx context.Context, id string) (*types.InventoryItem, error) {
+	query := `
+        select 
+            ii.id, ii.amount ,
+            p.id , p.name,
+            c.code, c.name,
+            cp.code, cp."name" 
+        from inventory_items ii 
+        join products p on ii.product_id = p.id 
+        join categories c on p.category_code = c.code 
+        left join categories cp on c.parent = cp.code
+        where ii.id = $1
+    `
+	row := s.db.QueryRowContext(ctx, query, id)
+
+	var i types.InventoryItem
+	var categoryParentCode *string
+	var categoryParentName *string
+
+	if err := row.Scan(
+		&i.Id,
+		&i.Amount,
+		&i.Product.Id,
+		&i.Product.Name,
+		&i.Product.Category.Code,
+		&i.Product.Category.Name,
+		&categoryParentCode,
+		&categoryParentName,
+	); err != nil {
+		return nil, err
+	}
+	if categoryParentCode != nil {
+		i.Product.Category.Parent = &types.Category{
+			Code: *categoryParentCode,
+			Name: *categoryParentName,
+		}
+	}
+
+	return &i, nil
+}
+
+func (s *PostgresStore) UpdateInventoryItem(c context.Context, id string, amount int) error {
+	query := `
+    update inventory_items ii
+        set amount = $1
+    where ii.id = $2
+    `
+	if _, err := s.db.ExecContext(c, query, amount, id); err != nil {
+		return err
+	}
+
+	return nil
 }

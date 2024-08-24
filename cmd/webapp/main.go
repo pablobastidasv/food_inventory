@@ -42,8 +42,8 @@ func main() {
 
     invGroup := e.Group("/inventories")
     invGroup.GET("", handler.GetInventoryItems(manager))
-    invGroup.PUT("/:id", handler.PutInventory())
-    invGroup.GET("/:id/edit", handler.GetInventoryForm())
+    invGroup.PUT("/:id", handler.PutInventory(manager))
+    invGroup.GET("/:id/edit", handler.GetInventoryForm(manager))
 
     prdGroup := e.Group("/products")
 	prdGroup.GET("", handler.GetProducts(manager))
