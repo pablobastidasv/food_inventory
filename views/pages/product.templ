@@ -3,12 +3,13 @@ package pages
 import (
 	"github.com/pablobastidasv/fridge_inventory/views/components"
 	"github.com/pablobastidasv/fridge_inventory/views/layouts"
+	"github.com/pablobastidasv/fridge_inventory/views/shared"
 )
 
 templ ProductsPage(products []components.ProductOverview) {
 	@layouts.Base() {
 		<div>
-			<h1 class="text-3xl">Productos</h1>
+			@shared.H1("Productos")
 			<div hx-get="/products/new" hx-swap="outerHTML" hx-trigger="load"></div>
 			<hr class="p-1"/>
 			@components.ProductList(products)

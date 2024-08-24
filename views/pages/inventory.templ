@@ -1,0 +1,13 @@
+package pages
+
+import (
+	"github.com/pablobastidasv/fridge_inventory/views/layouts"
+	"github.com/pablobastidasv/fridge_inventory/views/shared"
+)
+
+templ InventoryPage() {
+	@layouts.Base() {
+		@shared.H1("Inventario")
+		<div hx-get="/inventories" hx-swap="outerHTML" hx-trigger="load"></div>
+	}
+}
