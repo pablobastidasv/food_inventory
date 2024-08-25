@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log/slog"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -18,6 +19,7 @@ type (
 
 func GetMainIndex() echo.HandlerFunc {
 	return func(c echo.Context) error {
+        slog.Debug("Open main page.", "hola", "pepe")
 		return Render(c, 200, pages.InventoryPage())
 	}
 
