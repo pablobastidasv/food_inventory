@@ -3,7 +3,6 @@ module github.com/pablobastidasv/fridge_inventory
 go 1.21.3
 
 require (
-	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/a-h/templ v0.2.747
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
@@ -11,6 +10,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/samber/slog-echo v1.14.6
 	github.com/stretchr/testify v1.9.0
+	github.com/tinygg/gofaker v1.0.8
 )
 
 require (
@@ -25,7 +25,6 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/samber/lo v1.38.1 // indirect
-	github.com/tinygg/gofaker v1.0.8 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	go.opentelemetry.io/otel v1.20.0 // indirect

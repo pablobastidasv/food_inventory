@@ -34,9 +34,11 @@ test:
 	@go test ./...
 
 
-test/integration: docker migrate/run
-	@go test --tags=integration ./...
+test/integration: docker migrate/run ci/test
+	
 
+ci/test: 
+	@go test --tags=integration ./...
 
 docker:
 	@docker compose up db -d
