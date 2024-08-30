@@ -34,7 +34,7 @@ test:
 	@go test ./...
 
 
-test/integration:
+test/integration: docker migrate/run
 	@go test --tags=integration ./...
 
 
