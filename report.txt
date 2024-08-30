@@ -1,0 +1,64 @@
+{"Time":"2024-08-27T11:04:15.459681+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/cmd/continous-testing"}
+{"Time":"2024-08-27T11:04:15.459792+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/cmd/continous-testing","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/cmd/continous-testing\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:15.459936+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/cmd/continous-testing","Elapsed":0}
+{"Time":"2024-08-27T11:04:15.808489+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/cmd/webapp"}
+{"Time":"2024-08-27T11:04:15.808534+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/cmd/webapp","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/cmd/webapp\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:15.808544+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/cmd/webapp","Elapsed":0}
+{"Time":"2024-08-27T11:04:15.808562+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/db"}
+{"Time":"2024-08-27T11:04:15.80858+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/db","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/db\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:15.808593+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/db","Elapsed":0}
+{"Time":"2024-08-27T11:04:15.808615+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/handler"}
+{"Time":"2024-08-27T11:04:15.80864+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/handler","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/handler\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:15.808649+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/handler","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.153846+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager"}
+{"Time":"2024-08-27T11:04:16.153941+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/server"}
+{"Time":"2024-08-27T11:04:16.153958+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/server","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/server\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.15397+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/server","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.153987+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/storage"}
+{"Time":"2024-08-27T11:04:16.154021+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/storage","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/storage\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154025+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/storage","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.154036+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/storage/postgres"}
+{"Time":"2024-08-27T11:04:16.154041+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/storage/postgres","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/storage/postgres\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154045+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/storage/postgres","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.154055+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/types"}
+{"Time":"2024-08-27T11:04:16.154061+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/types","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/types\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154067+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/types","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.154073+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/views/components"}
+{"Time":"2024-08-27T11:04:16.154095+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/views/components","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/views/components\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154099+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/views/components","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.154107+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/views/icons"}
+{"Time":"2024-08-27T11:04:16.154112+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/views/icons","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/views/icons\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154115+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/views/icons","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.154121+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/views/layouts"}
+{"Time":"2024-08-27T11:04:16.154125+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/views/layouts","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/views/layouts\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154128+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/views/layouts","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.154132+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/views/pages"}
+{"Time":"2024-08-27T11:04:16.154139+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/views/pages","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/views/pages\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154141+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/views/pages","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.154147+02:00","Action":"start","Package":"github.com/pablobastidasv/fridge_inventory/views/shared"}
+{"Time":"2024-08-27T11:04:16.15415+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/views/shared","Output":"?   \tgithub.com/pablobastidasv/fridge_inventory/views/shared\t[no test files]\n"}
+{"Time":"2024-08-27T11:04:16.154153+02:00","Action":"skip","Package":"github.com/pablobastidasv/fridge_inventory/views/shared","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.40898+02:00","Action":"run","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator"}
+{"Time":"2024-08-27T11:04:16.409138+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"=== RUN   Test_ProductCreator\n"}
+{"Time":"2024-08-27T11:04:16.409207+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"--- FAIL: Test_ProductCreator (0.00s)\n"}
+{"Time":"2024-08-27T11:04:16.411605+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"panic: DBSTRING environment variable must be provided to initialize the server [recovered]\n"}
+{"Time":"2024-08-27T11:04:16.411713+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\tpanic: DBSTRING environment variable must be provided to initialize the server\n"}
+{"Time":"2024-08-27T11:04:16.411731+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\n"}
+{"Time":"2024-08-27T11:04:16.411752+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"goroutine 19 [running]:\n"}
+{"Time":"2024-08-27T11:04:16.411769+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"testing.tRunner.func1.2({0x104331e40, 0x1043839f0})\n"}
+{"Time":"2024-08-27T11:04:16.411822+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\t/usr/local/go/src/testing/testing.go:1545 +0x1c8\n"}
+{"Time":"2024-08-27T11:04:16.41184+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"testing.tRunner.func1()\n"}
+{"Time":"2024-08-27T11:04:16.411867+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\t/usr/local/go/src/testing/testing.go:1548 +0x360\n"}
+{"Time":"2024-08-27T11:04:16.411881+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"panic({0x104331e40?, 0x1043839f0?})\n"}
+{"Time":"2024-08-27T11:04:16.411895+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\t/usr/local/go/src/runtime/panic.go:914 +0x218\n"}
+{"Time":"2024-08-27T11:04:16.411909+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"github.com/pablobastidasv/fridge_inventory/db.NewPostgresDb()\n"}
+{"Time":"2024-08-27T11:04:16.411923+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\t/Users/pablobatidasv/Developer/personals/food_inventory/db/postgres.go:11 +0x7c\n"}
+{"Time":"2024-08-27T11:04:16.411937+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager_test.Test_ProductCreator(0x0?)\n"}
+{"Time":"2024-08-27T11:04:16.411951+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\t/Users/pablobatidasv/Developer/personals/food_inventory/internals/inventorymanager/manager_test.go:12 +0x24\n"}
+{"Time":"2024-08-27T11:04:16.411978+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"testing.tRunner(0x14000082ea0, 0x104382700)\n"}
+{"Time":"2024-08-27T11:04:16.411993+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\t/usr/local/go/src/testing/testing.go:1595 +0xe8\n"}
+{"Time":"2024-08-27T11:04:16.412007+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"created by testing.(*T).Run in goroutine 1\n"}
+{"Time":"2024-08-27T11:04:16.412021+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Output":"\t/usr/local/go/src/testing/testing.go:1648 +0x33c\n"}
+{"Time":"2024-08-27T11:04:16.41288+02:00","Action":"fail","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Test":"Test_ProductCreator","Elapsed":0}
+{"Time":"2024-08-27T11:04:16.412944+02:00","Action":"output","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Output":"FAIL\tgithub.com/pablobastidasv/fridge_inventory/internals/inventorymanager\t0.259s\n"}
+{"Time":"2024-08-27T11:04:16.412978+02:00","Action":"fail","Package":"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager","Elapsed":0.259}

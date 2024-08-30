@@ -4,16 +4,62 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"hash"
 	"io/fs"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
+	"time"
 )
 
-func main() {
-	total := 0
+type Hasher struct {
+	H hash.Hash
+}
 
+var Reset = "\033[0m"
+var Red = "\033[31m"
+var Green = "\033[32m"
+
+func main() {
+	hash := ""
+
+	ticker := time.NewTicker(100 * time.Millisecond)
+
+	for {
+		<-ticker.C
+		var err error
+
+		hasher := Hasher{
+			H: sha256.New(),
+		}
+		err = hasher.HashProjectFiles()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		newHash := hasher.ToString()
+		if hash != newHash {
+			start := time.Now()
+			hash = newHash
+			fmt.Println()
+			fmt.Println("Running tests...")
+			cmd := exec.Command("go", "test", "./...")
+			stdout, err := cmd.Output()
+			if err != nil {
+				fmt.Printf("%s%v%s\n", Red, err, Reset)
+				fmt.Printf("%s%v%s\n", Red, string(stdout), Reset)
+			} else {
+				fmt.Printf("%s%v%s\n", Green, string(stdout), Reset)
+			}
+			fmt.Printf("took %d sec.\n", time.Since(start).Milliseconds())
+		}
+	}
+}
+
+func (h *Hasher) HashProjectFiles() error {
 	err := filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -22,45 +68,50 @@ func main() {
 			return nil
 		}
 
-		fmt.Println("========")
-		fmt.Printf("path %s\n", path)
+		h.hashGoFile(path)
 
-		if !strings.HasSuffix(info.Name(), ".go") {
-			// interested only in chages in go files
-            fmt.Println("File ignored")
-			return nil
-		}
-
-		pathHash := sha256.New()
-		pathHash.Write([]byte(path))
-
-		fileHash := sha256.New()
-		fileContent, err := os.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		fileHash.Write(fileContent)
-
-		pathHashedValue := hex.EncodeToString(pathHash.Sum(nil))
-		fileContextHashedValue := hex.EncodeToString(fileHash.Sum(nil))
-
-
-        resultHasher := sha256.New()
-		resultHasher.Write([]byte(pathHashedValue + fileContextHashedValue))
-        hashResult := hex.EncodeToString(resultHasher.Sum(nil))
-
-		// fmt.Printf("go hashed path? %s\n", pathHashedValue)
-		// fmt.Printf("go hashed file content? %s\n", fileContextHashedValue)
-		fmt.Printf("go hashed total? %s\n", hashResult)
-		fmt.Println("========")
-        // 8e1fc8655849d3db982c590424e0aa28b7dc7e5d647c0c0b90b77dcd539b9a95
-        // 
-		total++
 		return nil
 	})
-	if err != nil {
-		log.Fatal(err)
+	return err
+
+}
+
+func (h *Hasher) hashGoFile(path string) error {
+	// Only go files
+	if !strings.HasSuffix(path, ".go") {
+		// interested only in chages in go files
+		// fmt.Printf("File %s ignored\n", path)
+		return nil
 	}
 
-	fmt.Printf("ammount of files go files found %d\n", total)
+	// Ignore this go files
+	if result, _ := regexp.MatchString(".*_templ.go", path); result {
+		// interested only in chages in go files
+		// fmt.Printf("File %s ignored\n", path)
+		return nil
+	}
+
+	return h.hashFile(path)
+}
+
+func (h *Hasher) hashFile(path string) error {
+	// hash the path name
+	h.H.Write([]byte(path))
+
+	fileContent, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	h.H.Write(fileContent)
+
+	return nil
+
+}
+
+func (h *Hasher) ToString() string {
+	return hex.EncodeToString(h.H.Sum(nil))
+}
+
+func (h *Hasher) Reset() {
+	h.Reset()
 }

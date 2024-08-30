@@ -34,6 +34,10 @@ test:
 	@go test ./...
 
 
+test/integration:
+	@go test --tags=integration ./...
+
+
 docker:
 	@docker compose up db -d
 
