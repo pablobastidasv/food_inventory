@@ -37,11 +37,9 @@ func LoadEnv() {
 	err := godotenv.Load(string(rootPath) + `/.env`)
 	if err != nil {
 		slog.Error(
-			"Problem loading .env file",
+			"Problem loading .env file, continuing with environment variables",
 			"cause", err,
 			"cwd", cwd,
 		)
-
-		os.Exit(-1)
 	}
 }
