@@ -50,5 +50,8 @@ jobs:
 
       - name: run test
         run: make ci/test
+        env:
+          DBSTRING: postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable
+
 
 
