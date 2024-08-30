@@ -8,7 +8,7 @@ on:
 jobs:
   testing:
 
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
 
      # Service containers to run with `container-job`
     services:
