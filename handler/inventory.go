@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"log/slog"
+	"sort"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -19,7 +19,6 @@ type (
 
 func GetMainIndex() echo.HandlerFunc {
 	return func(c echo.Context) error {
-        slog.Debug("Open main page.", "hola", "pepe")
 		return Render(c, 200, pages.InventoryPage())
 	}
 
@@ -32,16 +31,36 @@ func GetInventoryItems(lister inventorymanager.InventoryItemsLister) echo.Handle
 			return err
 		}
 
-		items := []components.InventoryInfo{}
+		tmp := make(map[string]*components.InventoryCategory)
+		categories := []components.InventoryCategory{}
 		for _, i := range inventoryitems {
-			items = append(items, components.InventoryInfo{
+			cat, exists := tmp[i.Product.Category.Code]
+			if !exists {
+				cat = &components.InventoryCategory{
+					CategoryName:  i.Product.Category.Name,
+					Items:         []components.InventoryItemInfo{},
+				}
+
+				tmp[i.Product.Category.Code] = cat
+			}
+
+			itemInfo := components.InventoryItemInfo{
 				Id:          i.Id,
 				ProductName: i.Product.Name,
-				Amount:     strconv.Itoa(i.Amount),
-			})
+				Amount:      strconv.Itoa(i.Amount),
+			}
+			cat.Items = append(cat.Items, itemInfo)
 		}
 
-		return Render(c, 200, components.InventoryItems(items))
+		for _, v := range tmp {
+			categories = append(categories, *v)
+		}
+
+        sort.SliceStable(categories, func(i, j int) bool {
+            return categories[i].CategoryName < categories[j].CategoryName
+        })
+
+		return Render(c, 200, components.InventoryItemsByCategory(categories))
 	}
 }
 

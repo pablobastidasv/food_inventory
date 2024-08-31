@@ -32,8 +32,19 @@ jobs:
           go-version: '1.21.x'
           cache: true
 
+      - name: setup templ
+        run: |
+          tag=$(curl -L -s -u "username:${{ github.token }}" https://api.github.com/repos/a-h/templ/releases/latest | jq -r '.tag_name')
+          os="Linux"
+          arch="x86_64"
+          echo "Installing templ @ ${tag}  for ${os}_${arch}"
+          curl -fsL https://github.com/a-h/templ/releases/download/${tag}/templ_${os}_${arch}.tar.gz > /tmp/templ.tar.gz
+          tar -zxvf /tmp/templ.tar.gz
+          mv templ /usr/local/bin/templ
+          chmod +x /usr/local/bin/templ
+
       - name: build templates
-        uses: capthiron/templ-generator-action@v1
+        run: templ generate
 
       - name: create .env file
         run: cp .github/ci.env .env

@@ -5,13 +5,35 @@ import (
 	"github.com/pablobastidasv/fridge_inventory/views/icons"
 )
 
-type InventoryInfo struct {
+type InventoryCategory struct {
+	CategoryName  string
+	Items         []InventoryItemInfo
+}
+
+type InventoryItemInfo struct {
 	Id          string
 	ProductName string
 	Amount      string
 }
 
-templ InventoryItems(items []InventoryInfo) {
+templ InventoryItemsByCategory(items []InventoryCategory) {
+	<div class="flex flex-col gap-2 mt-4">
+		for _, ic := range items {
+			@InventoryItemCategory(ic)
+		}
+	</div>
+}
+
+templ InventoryItemCategory(item InventoryCategory) {
+	<div tabindex="0" class="collapse collapse-arrow border-base-300 bg-base-200 border">
+		<div class="collapse-title text-xl font-medium">{ item.CategoryName }</div>
+		<div class="collapse-content">
+			@InventoryItems(item.Items)
+		</div>
+	</div>
+}
+
+templ InventoryItems(items []InventoryItemInfo) {
 	<div class="flex flex-row gap-2 flex-wrap">
 		for _, i := range items {
 			@InventoryItem(i)
@@ -19,7 +41,7 @@ templ InventoryItems(items []InventoryInfo) {
 	</div>
 }
 
-templ InventoryItem(item InventoryInfo) {
+templ InventoryItem(item InventoryItemInfo) {
 	<div class="card bg-base-100 w-96 shadow-xl">
 		<div class="card-body" hx-target="closest div">
 			<h2 class="card-title">{ item.ProductName }</h2>
