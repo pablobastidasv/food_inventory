@@ -36,7 +36,7 @@ jobs:
         uses: capthiron/templ-generator-action@v1
 
       - name: create .env file
-        run: cp github/ci.env .env
+        run: cp .github/ci.env .env
 
       - name: setup goose
         uses: mscno/setup-goose@v1
