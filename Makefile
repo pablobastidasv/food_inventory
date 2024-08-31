@@ -67,7 +67,7 @@ migrate/down:
 
 # apk add --no-cache make
 # apk add --update nodejs npm
-build: ci/templ
+build: 
 	@templ generate
 	@npx tailwindcss -i assets/styles/my-styles.css -o assets/styles/styles.css --minify
 	@CGO_ENABLED=0; go build -o tmp/main cmd/webapp/main.go
