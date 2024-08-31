@@ -194,7 +194,53 @@ func (s *PostgresStore) FindInventoryItemById(ctx context.Context, id string) (*
         left join categories cp on c.parent = cp.code
         where ii.id = $1
     `
-	row := s.db.QueryRowContext(ctx, query, id)
+    return s.executeFindInventoryItemQuery(ctx, query, id)
+}
+
+func (s *PostgresStore) UpdateInventoryItem(c context.Context, id string, amount int) error {
+	query := `
+    update inventory_items ii
+        set amount = $1
+    where ii.id = $2
+    `
+	if _, err := s.db.ExecContext(c, query, amount, id); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *PostgresStore) CreateInventoryItem(c context.Context, i types.InventoryItem) error {
+	query := `
+    insert into inventory_items (id, product_id, amount)
+    values ($1, $2, $3)
+    `
+	if _, err := s.db.ExecContext(c, query, i.Id, i.Product.Id, i.Amount); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *PostgresStore) FindInventoryItemByProduct(c context.Context, p types.Product) (*types.InventoryItem, error) {
+	q := `
+    select 
+            ii.id, ii.amount ,
+            p.id , p.name,
+            c.code, c.name,
+            cp.code, cp.name 
+        from inventory_items ii 
+        join products p on ii.product_id = p.id 
+        join categories c on p.category_code = c.code 
+        left join categories cp on c.parent = cp.code
+        where ii.product_id = $1
+
+    `
+	return s.executeFindInventoryItemQuery(c, q, p.Id)
+}
+
+func (s *PostgresStore) executeFindInventoryItemQuery(c context.Context, q, param string) (*types.InventoryItem, error) {
+	row := s.db.QueryRowContext(c, q, param)
 
 	var i types.InventoryItem
 	var categoryParentCode *string
@@ -223,17 +269,5 @@ func (s *PostgresStore) FindInventoryItemById(ctx context.Context, id string) (*
 	}
 
 	return &i, nil
-}
 
-func (s *PostgresStore) UpdateInventoryItem(c context.Context, id string, amount int) error {
-	query := `
-    update inventory_items ii
-        set amount = $1
-    where ii.id = $2
-    `
-	if _, err := s.db.ExecContext(c, query, amount, id); err != nil {
-		return err
-	}
-
-	return nil
 }
