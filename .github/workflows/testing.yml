@@ -40,7 +40,7 @@ jobs:
           echo "Installing templ @ ${tag}  for ${os}_${arch}"
           curl -fsL https://github.com/a-h/templ/releases/download/${tag}/templ_${os}_${arch}.tar.gz > /tmp/templ.tar.gz
           tar -zxvf /tmp/templ.tar.gz
-          mv /tmp/templ /usr/local/bin/templ
+          mv templ /usr/local/bin/templ
           chmod +x /usr/local/bin/goose
 
       - name: build templates
