@@ -30,7 +30,7 @@ func DbInstance() *sql.DB {
 
 // https://github.com/joho/godotenv/issues/43#issuecomment-503183127
 func LoadEnv() {
-	re := regexp.MustCompile(`^(.*food_inventory)`)
+	re := regexp.MustCompile(`^(.*food_inventory)`) // the name of the project folder MUST be `food_inventory`
 	cwd, _ := os.Getwd()
 	rootPath := re.Find([]byte(cwd))
 

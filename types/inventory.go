@@ -17,3 +17,7 @@ type InventoryItem struct {
 	Product Product
 	Amount int
 }
+
+func (i InventoryItem) HasStock() bool {
+    return i.Amount > 0
+}

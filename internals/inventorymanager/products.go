@@ -2,10 +2,14 @@ package inventorymanager
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 
+	"github.com/google/uuid"
 	"github.com/pablobastidasv/fridge_inventory/types"
 )
+
+var ErrProductHasStock = errors.New("product has stock")
 
 func (m *inventoryManager) CreateProduct(c context.Context, input CreateProductInput) (types.Product, error) {
 	slog.Debug("Create product Use Case")
@@ -26,6 +30,17 @@ func (m *inventoryManager) CreateProduct(c context.Context, input CreateProductI
 		return types.Product{}, err
 	}
 
+	item := types.InventoryItem{
+		Id:      uuid.NewString(),
+		Product: product,
+		Amount:  0,
+	}
+
+	err = m.store.CreateInventoryItem(c, item)
+	if err != nil {
+		return types.Product{}, err
+	}
+
 	return product, nil
 }
 
@@ -37,6 +52,13 @@ func (m *inventoryManager) ListCategories(c context.Context) ([]types.Category, 
 	return m.store.ListCategories(c)
 }
 
-func (m *inventoryManager) DeleteProduct(ctx context.Context, id string) error {
-	return m.store.DeleteProduct(ctx, id)
+func (m *inventoryManager) DeleteProduct(ctx context.Context, productId string) error {
+    i, err := m.store.FindInventoryItemByProduct(ctx, types.Product{Id: productId})
+    if err != nil {
+        return err
+    }
+    if i != nil && i.HasStock() {
+       return ErrProductHasStock
+    }
+	return m.store.DeleteProduct(ctx, productId)
 }

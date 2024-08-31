@@ -53,19 +53,22 @@ func main() {
 }
 
 func newLogger() *slog.Logger {
-	var logLevel slog.Level
+	var logger *slog.Logger
 
 	switch os.Getenv("ENV") {
 	case "DEV":
-		logLevel = slog.LevelDebug
-	default:
-		logLevel = slog.LevelInfo
-	}
+		logger = slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+			Level:     slog.LevelDebug,
+			AddSource: true,
+		}))
 
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level:     logLevel,
-		AddSource: true,
-	}))
+	default:
+		logger = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+			Level:     slog.LevelInfo,
+			AddSource: true,
+		}))
+
+	}
 
 	slog.SetDefault(logger)
 
