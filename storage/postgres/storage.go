@@ -33,16 +33,19 @@ func (p *PostgresStore) FindCategory(c context.Context, categoryCode string) (*t
 		&category.Name,
 		&parent,
 	); err != nil {
-		// TODO: Control when error is ErrNoRows
-		return nil, err
+		if err == sql.ErrNoRows {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 
 	if parent != nil {
-		var err error
-		category.Parent, err = p.FindCategory(c, *parent)
+		parent, err := p.FindCategory(c, *parent)
 		if err != nil {
 			return nil, err
 		}
+		category.Parent = parent
 	}
 
 	return &category, nil
@@ -184,7 +187,7 @@ func (s *PostgresStore) FindInventoryItemById(ctx context.Context, id string) (*
             ii.id, ii.amount ,
             p.id , p.name,
             c.code, c.name,
-            cp.code, cp."name" 
+            cp.code, cp.name 
         from inventory_items ii 
         join products p on ii.product_id = p.id 
         join categories c on p.category_code = c.code 
@@ -207,6 +210,9 @@ func (s *PostgresStore) FindInventoryItemById(ctx context.Context, id string) (*
 		&categoryParentCode,
 		&categoryParentName,
 	); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
 		return nil, err
 	}
 	if categoryParentCode != nil {

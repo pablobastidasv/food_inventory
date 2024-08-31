@@ -26,12 +26,13 @@ type (
 	ProductsLister interface {
 		ListProduct(context.Context) ([]types.Product, error)
 	}
-	CategoryLister interface {
-		ListCategories(context.Context) ([]types.Category, error)
-	}
 	ProductDeleter interface {
 		DeleteProduct(context.Context, string) error
 	}
+
+    CategoryLister interface {
+        ListCategories(context.Context) ([]types.Category, error)
+    }
 
 	InventoryItemsLister interface {
 		ListInventoryItems(context.Context) ([]types.InventoryItem, error)

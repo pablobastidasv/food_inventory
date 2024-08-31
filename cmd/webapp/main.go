@@ -1,13 +1,13 @@
 package main
 
 import (
-	"database/sql"
 	"log/slog"
 	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/pablobastidasv/fridge_inventory/db"
 	"github.com/pablobastidasv/fridge_inventory/handler"
 	"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager"
 	"github.com/pablobastidasv/fridge_inventory/server"
@@ -22,8 +22,8 @@ func main() {
 	logger := newLogger()
 
 	// Loading database
-	db := newDb()
-	defer db.Close()
+	dbConn := db.NewPostgresDb()
+	defer dbConn.Close()
 
 	e := echo.New()
 
@@ -33,7 +33,7 @@ func main() {
 	e.Use(slogecho.New(logger))
 	e.Use(middleware.Recover())
 
-	store := postgres.New(db)
+	store := postgres.New(dbConn)
 	manager := inventorymanager.New(store)
 
 	e.GET("/", handler.GetMainIndex())
@@ -71,17 +71,4 @@ func newLogger() *slog.Logger {
 
 	return logger
 
-}
-
-func newDb() *sql.DB {
-	connStr := os.Getenv("DBSTRING")
-    if connStr == "" {
-        panic("DBSTRING environment variable must be provided to initialize the server")
-    }
-
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		panic(err)
-	}
-	return db
 }

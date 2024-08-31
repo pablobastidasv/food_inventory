@@ -1,0 +1,48 @@
+name: testing
+on:
+  push:
+    pull_request:
+      - main
+
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/use-cases-and-examples/using-containerized-services/creating-postgresql-service-containers
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21.x'
+          cache: true
+
+      - name: build templates
+        uses: capthiron/templ-generator-action@v1
+
+      - name: create .env file
+        run: cp .github/ci.env .env
+
+      - name: setup goose
+        uses: mscno/setup-goose@v1
+      - name: Run migrations
+        run: make migrate/run
+
+      - name: run test
+        run: make ci/test
+
