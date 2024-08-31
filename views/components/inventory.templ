@@ -7,7 +7,6 @@ import (
 
 type InventoryCategory struct {
 	CategoryName  string
-	SubCategories []InventoryCategory
 	Items         []InventoryItemInfo
 }
 
@@ -29,7 +28,6 @@ templ InventoryItemCategory(item InventoryCategory) {
 	<div tabindex="0" class="collapse collapse-arrow border-base-300 bg-base-200 border">
 		<div class="collapse-title text-xl font-medium">{ item.CategoryName }</div>
 		<div class="collapse-content">
-			@InventoryItemsByCategory(item.SubCategories)
 			@InventoryItems(item.Items)
 		</div>
 	</div>

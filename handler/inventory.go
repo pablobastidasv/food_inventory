@@ -38,7 +38,6 @@ func GetInventoryItems(lister inventorymanager.InventoryItemsLister) echo.Handle
 			if !exists {
 				cat = &components.InventoryCategory{
 					CategoryName:  i.Product.Category.Name,
-					SubCategories: []components.InventoryCategory{},
 					Items:         []components.InventoryItemInfo{},
 				}
 
