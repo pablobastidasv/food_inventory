@@ -41,7 +41,7 @@ jobs:
           curl -fsL https://github.com/a-h/templ/releases/download/${tag}/templ_${os}_${arch}.tar.gz > /tmp/templ.tar.gz
           tar -zxvf /tmp/templ.tar.gz
           mv templ /usr/local/bin/templ
-          chmod +x /usr/local/bin/goose
+          chmod +x /usr/local/bin/templ
 
       - name: build templates
         run: templ generate
