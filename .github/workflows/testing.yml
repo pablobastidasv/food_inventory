@@ -1,8 +1,7 @@
 name: testing
 on:
-  push:
-    pull_request:
-      - main
+  pull_request:
+    - main
 
 
 jobs:
