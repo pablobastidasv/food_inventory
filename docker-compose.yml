@@ -4,7 +4,7 @@ services:
     ports:
       - "54321:5432"
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: password # Used in local environment and Pipelines
 
   app:
     build: .

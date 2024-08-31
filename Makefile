@@ -9,6 +9,8 @@ export GOOSE_DBSTRING:=$(DBSTRING)
 export GOOSE_MIGRATION_DIR:=db/migrations
 
 install: ci/install
+	go install github.com/a-h/templ/cmd/templ@latest
+	go install github.com/pressly/goose/v3/cmd/goose@latest
 	go install github.com/air-verse/air@latest
 
 
@@ -39,14 +41,6 @@ ci/test:
 	@go test --tags=integration ./...
 
 
-ci/install:
-	go install github.com/a-h/templ/cmd/templ@latest
-	go install github.com/pressly/goose/v3/cmd/goose@latest
-
-ci/templ:
-	@templ generate
-
-
 docker:
 	@docker compose up db -d
 
@@ -74,6 +68,7 @@ migrate/down:
 # apk add --no-cache make
 # apk add --update nodejs npm
 build: ci/templ
+	@templ generate
 	@npx tailwindcss -i assets/styles/my-styles.css -o assets/styles/styles.css --minify
 	@CGO_ENABLED=0; go build -o tmp/main cmd/webapp/main.go
 

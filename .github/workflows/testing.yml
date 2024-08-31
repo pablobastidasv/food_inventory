@@ -7,28 +7,21 @@ on:
 
 jobs:
   testing:
-
     runs-on: ubuntu-latest
 
-     # Service containers to run with `container-job`
+    # https://docs.github.com/en/actions/use-cases-and-examples/using-containerized-services/creating-postgresql-service-containers
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres
-        # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          # Maps tcp port 5432 on service container to the host
           - 5432:5432
-
 
     steps:
       - uses: actions/checkout@v4
@@ -42,17 +35,14 @@ jobs:
       - name: build templates
         uses: capthiron/templ-generator-action@v1
 
+      - name: create .env file
+        steps: mv local.env .env
+
       - name: setup goose
         uses: mscno/setup-goose@v1
       - name: Run migrations
         run: make migrate/run
-        env:
-          DBSTRING: postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable
 
       - name: run test
         run: make ci/test
-        env:
-          DBSTRING: postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable
-
-
 
