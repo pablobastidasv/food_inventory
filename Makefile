@@ -8,7 +8,7 @@ export GOOSE_DRIVER:=postgres
 export GOOSE_DBSTRING:=$(DBSTRING)
 export GOOSE_MIGRATION_DIR:=db/migrations
 
-install: ci/install
+install:
 	go install github.com/a-h/templ/cmd/templ@latest
 	go install github.com/pressly/goose/v3/cmd/goose@latest
 	go install github.com/air-verse/air@latest
