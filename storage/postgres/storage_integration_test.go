@@ -7,7 +7,6 @@ package postgres_test
 import (
 	"context"
 	"database/sql"
-	"os"
 	"testing"
 
 	"github.com/pablobastidasv/fridge_inventory/storage"
@@ -23,10 +22,9 @@ func TestMain(m *testing.M) {
 	testutils.LoadEnv()
 
 	postgresDb := testutils.DbInstance()
-	code := m.Run()
-	postgresDb.Close()
+    defer postgresDb.Close()
 
-	os.Exit(code)
+	m.Run()
 }
 
 func Test_FindCategory(tt *testing.T) {
