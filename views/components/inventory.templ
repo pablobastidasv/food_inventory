@@ -3,6 +3,7 @@ package components
 import (
 	"fmt"
 	"github.com/pablobastidasv/fridge_inventory/views/icons"
+	"github.com/pablobastidasv/fridge_inventory/views/shared"
 )
 
 type InventoryCategory struct {
@@ -55,16 +56,27 @@ templ InventoryItem(item InventoryItemInfo) {
 templ InventoryItemForm(id string, amount string) {
 	<form hx-put={ fmt.Sprintf("/inventories/%s", id) } class="flex flex-row items-center gap-3">
 		<div>
-			<input type="number" name="amount" class="text-center input max-w-32 text-5xl p-0" value={ amount } autofocus/>
+			<input
+				type="number"
+				name="amount"
+				class="text-center input max-w-32 text-5xl p-0"
+				value={ amount }
+				autofocus
+				required
+			/>
 		</div>
-		<button>
+		<button class="flex flex-row items-center">
 			@icons.Floopy()
+			@shared.LoadingIndicatorSm()
 		</button>
 	</form>
 }
 
 templ InventoryValue(id string, amount string) {
-	<span class="text-right text-5xl" hx-get={ fmt.Sprintf("/inventories/%s/edit", id) }>
-		{ amount }
-	</span>
+	<div class="flex flex-row items-center gap-2" hx-swap="outerHTML" hx-get={ fmt.Sprintf("/inventories/%s/edit", id) }>
+		<span class="text-right text-5xl">
+			{ amount }
+		</span>
+		@shared.LoadingIndicatorSm()
+	</div>
 }

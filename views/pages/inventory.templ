@@ -8,6 +8,11 @@ import (
 templ InventoryPage() {
 	@layouts.Base() {
 		@shared.H1("Inventario")
-		<div hx-get="/inventories" hx-swap="outerHTML" hx-trigger="load"></div>
+		<div hx-get="/inventories" hx-swap="outerHTML" hx-trigger="load">
+			<div class="flex flex-col align-middle items-center pt-10 gap-3">
+				@shared.LoadingIndicatorLg()
+				Cargando el inventario...
+			</div>
+		</div>
 	}
 }

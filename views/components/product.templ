@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/pablobastidasv/fridge_inventory/views/icons"
+	"github.com/pablobastidasv/fridge_inventory/views/shared"
 )
 
 const (
@@ -23,22 +24,34 @@ type (
 		Id   string
 		Name string
 	}
+
+	ProductFormValues struct {
+		Name            string
+		Category        string
+		CategoryOptions []shared.SelectOpt
+	}
 )
 
-templ ProductForm(categories []Category) {
+templ ProductForm(values ProductFormValues, errors map[string]string) {
 	<form hx-post="/products" hx-swap="outerHTML" class="flex flex-col gap-3 m-4" autocomplete="off">
 		<div class="flex flex-col">
 			<label for="name">Nombre</label>
-			<input id="name" name="name" class="input input-bordered max-w-md " required autofocus/>
+			@shared.InputText(shared.InputTextProps{
+				Name:        "name",
+				Value:       values.Name,
+				Error:       errors["name"],
+				Placeholder: "Nombre",
+			})
 		</div>
 		<div class="flex flex-col">
 			<label for="category">Categoria</label>
-			<select name="category" class="select select-bordered max-w-md" required>
-				<option value="">-- Seleccione una categoria --</option>
-				for _, c := range categories {
-					<option value={ c.Id }>{ c.Name }</option>
-				}
-			</select>
+			@shared.Select(shared.SelectProps{
+				Name:       "category",
+				Value:      values.Category,
+				EmptyLabel: "-- Seleccione una categoria --",
+				Error:      errors["category"],
+				Options:    values.CategoryOptions,
+			})
 		</div>
 		<div>
 			<button class="btn btn-primary">Guardar</button>
