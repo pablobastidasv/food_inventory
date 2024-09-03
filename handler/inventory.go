@@ -6,6 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager"
+	"github.com/pablobastidasv/fridge_inventory/types"
 	"github.com/pablobastidasv/fridge_inventory/views/components"
 	"github.com/pablobastidasv/fridge_inventory/views/pages"
 )
@@ -31,37 +32,41 @@ func GetInventoryItems(lister inventorymanager.InventoryItemsLister) echo.Handle
 			return err
 		}
 
-		tmp := make(map[string]*components.InventoryCategory)
+		itemByCategory := groupInventoryItemByProductCategory(inventoryitems)
 		categories := []components.InventoryCategory{}
-		for _, i := range inventoryitems {
-			cat, exists := tmp[i.Product.Category.Code]
-			if !exists {
-				cat = &components.InventoryCategory{
-					CategoryName:  i.Product.Category.Name,
-					Items:         []components.InventoryItemInfo{},
-				}
-
-				tmp[i.Product.Category.Code] = cat
-			}
-
-			itemInfo := components.InventoryItemInfo{
-				Id:          i.Id,
-				ProductName: i.Product.Name,
-				Amount:      strconv.Itoa(i.Amount),
-			}
-			cat.Items = append(cat.Items, itemInfo)
-		}
-
-		for _, v := range tmp {
+		for _, v := range itemByCategory {
 			categories = append(categories, *v)
 		}
 
-        sort.SliceStable(categories, func(i, j int) bool {
-            return categories[i].CategoryName < categories[j].CategoryName
-        })
+		sort.SliceStable(categories, func(i, j int) bool {
+			return categories[i].CategoryName < categories[j].CategoryName
+		})
 
 		return Render(c, 200, components.InventoryItemsByCategory(categories))
 	}
+}
+
+func groupInventoryItemByProductCategory(inventoryitems []types.InventoryItem) map[string]*components.InventoryCategory {
+	tmp := make(map[string]*components.InventoryCategory)
+	for _, i := range inventoryitems {
+		cat, exists := tmp[i.Product.Category.Code]
+		if !exists {
+			cat = &components.InventoryCategory{
+				CategoryName: i.Product.Category.Name,
+				Items:        []components.InventoryItemInfo{},
+			}
+
+			tmp[i.Product.Category.Code] = cat
+		}
+
+		itemInfo := components.InventoryItemInfo{
+			Id:          i.Id,
+			ProductName: i.Product.Name,
+			Amount:      strconv.Itoa(i.Amount),
+		}
+		cat.Items = append(cat.Items, itemInfo)
+	}
+	return tmp
 }
 
 func GetInventoryForm(f inventorymanager.InventoryManager) echo.HandlerFunc {
