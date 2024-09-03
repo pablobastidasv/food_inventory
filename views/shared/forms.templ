@@ -1,0 +1,47 @@
+package shared
+
+type InputTextProps struct {
+	Name        string
+	Value       string
+	Error       string
+	Placeholder string
+}
+
+type SelectProps struct {
+	Name       string
+	Value      string
+	EmptyLabel string
+	Error      string
+	Options    []SelectOpt
+}
+
+type SelectOpt struct {
+	Value string
+	Label string
+}
+
+templ InputText(props InputTextProps) {
+	<input
+		value={ props.Value }
+		placeholder={ props.Placeholder }
+		class="input input-bordered max-w-md"
+		name={ props.Name }
+	/>
+	@errorMessage(props.Error)
+}
+
+templ Select(props SelectProps) {
+	<select name={ props.Name } class="select select-bordered max-w-md" value={ props.Value } required>
+		<option value="">{ props.EmptyLabel }</option>
+		for _, o := range props.Options {
+			<option value={ o.Value }>{ o.Label }</option>
+		}
+	</select>
+	@errorMessage(props.Error)
+}
+
+templ errorMessage(msg string) {
+	if msg != "" {
+		<span>{ msg }</span>
+	}
+}

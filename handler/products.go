@@ -8,6 +8,7 @@ import (
 	"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager"
 	"github.com/pablobastidasv/fridge_inventory/views/components"
 	"github.com/pablobastidasv/fridge_inventory/views/pages"
+	"github.com/pablobastidasv/fridge_inventory/views/shared"
 )
 
 type PostProductDeps interface {
@@ -78,16 +79,21 @@ func renderProductForm(ctx echo.Context, cl inventorymanager.CategoryLister) err
 		return err
 	}
 
-	categories := []components.Category{}
+	categories := []shared.SelectOpt{}
 	for _, c := range categoryList {
-		category := components.Category{
-			Id:   c.Code,
-			Name: c.Name,
+		category := shared.SelectOpt{
+			Value:   c.Code,
+			Label: c.Name,
 		}
 		categories = append(categories, category)
 	}
 
-	return Render(ctx, http.StatusOK, components.ProductForm(categories))
+    formValues := components.ProductFormValues {
+        CategoryOptions: categories,
+    }
+    formErrors := make(map[string]string)
+
+	return Render(ctx, http.StatusOK, components.ProductForm(formValues, formErrors))
 
 }
 
