@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"encoding/gob"
 	"log/slog"
 	"net/http"
@@ -135,9 +136,18 @@ func (ah *AuthHandler) PageMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.Redirect(http.StatusTemporaryRedirect, ah.loginUri)
 		}
 
-		return next(c)
+		// Add user to the context
+		addUserToContext(c, user.(User))
 
+		return next(c)
 	}
+}
+
+// addUserToContext adds the given user to che given context
+func addUserToContext(c echo.Context, user User){
+	ctx := context.WithValue(c.Request().Context(), "user", user)
+	r := c.Request().WithContext(ctx)
+	c.SetRequest(r)
 }
 
 func (ah *AuthHandler) FragmentMiddleware(next echo.HandlerFunc) echo.HandlerFunc {

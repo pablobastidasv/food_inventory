@@ -1,0 +1,35 @@
+package shared
+
+import "github.com/pablobastidasv/fridge_inventory/auth"
+
+type User struct {
+	Name      string
+	AvatarUrl string
+}
+
+templ NavBar() {
+	if user, ok := ctx.Value("user").(auth.User); ok {
+		<div class="navbar bg-base-100">
+			<div class="flex-1">
+				<a class="btn btn-ghost text-xl">Bastriguez</a>
+			</div>
+			<div class="flex-none gap-2">
+				<div class="dropdown dropdown-end">
+					<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+						<div class="w-10 rounded-full">
+							<img
+								alt="Avatar del usuario"
+								src={ user.AvatarURL }
+							/>
+						</div>
+					</div>
+					<ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                        //<li><a>Profile</a></li>
+						//<li><a>Settings</a></li>
+						<li><a href="/auth/logout">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	}
+}
