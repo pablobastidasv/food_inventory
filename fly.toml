@@ -20,3 +20,9 @@ primary_region = 'ams'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+[env]
+  AUTH_CALLBACK_URL = 'https://inventories.pablobastidasv.co/auth/callback'
+  AUTH_REDIRECT_URL = 'https://inventories.pablobastidasv.co/'
+  AUTH_DOMAIN = 'bastriguez.us.auth0.com'
+
