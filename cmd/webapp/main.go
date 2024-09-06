@@ -44,22 +44,21 @@ func main() {
 
 
 	// ======= Begin: Authentication
-    ah := auth.New("/auth/login")
     g := e.Group("/auth")
-	g.GET("/login", ah.GetLogin)
-	g.GET("/callback", ah.GetCallback)
-	g.GET("/logout", ah.GetLogout)
+	g.GET("/login", auth.GetLogin)
+	g.GET("/callback", auth.GetCallback)
+	g.GET("/logout", auth.GetLogout)
 	// ======= End: Authentication
 
-	e.GET("/", handler.GetMainIndex(), ah.PageMiddleware)
+	e.GET("/", handler.GetMainIndex(), auth.PageMiddleware)
 
-	invGroup := e.Group("/inventories", ah.FragmentMiddleware)
+	invGroup := e.Group("/inventories", auth.FragmentMiddleware)
 	invGroup.GET("", handler.GetInventoryItems(manager))
 	invGroup.PUT("/:id", handler.PutInventory(manager))
 	invGroup.GET("/:id/edit", handler.GetInventoryForm(manager))
 
 	prdGroup := e.Group("/products")
-	prdGroup.GET("", handler.GetProducts(manager), ah.PageMiddleware)
+	prdGroup.GET("", handler.GetProducts(manager), auth.PageMiddleware)
 	prdGroup.POST("", handler.PostProducts(manager), server.WithTransaction)
 	prdGroup.GET("/new", handler.GetProductsForm(manager))
 	prdGroup.DELETE("/:id", handler.DeleteProduct(manager), server.WithTransaction)

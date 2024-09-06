@@ -19,14 +19,14 @@ import (
 const sessionName = "_bastriguez_session"
 const userCookieValueName = "user"
 
-type AuthHandler struct {
-	clientId     string
-	clientSecret string
-	callbackUrl  string
-	returnUrl    string
-	domain       string
-	loginUri     string
-}
+// LoginUri is the path where the user is redirected if not authenticated
+var LoginUri = "/auth/login"
+
+var clientId string
+var clientSecret string
+var callbackUrl string
+var returnUrl string
+var domain string
 
 type User struct {
 	UserId    string
@@ -37,25 +37,22 @@ type User struct {
 }
 
 // New creates a instance with all Handlers for the auth, it receives the URL where the login page is invoked
-func New(loginUrl string) *AuthHandler {
+func init() {
 	gob.Register(User{})
 
-	ah := &AuthHandler{
-		clientId:     os.Getenv("AUTH_CLIENT_ID"),
-		clientSecret: os.Getenv("AUTH_CLIENT_SECRET"),
-		callbackUrl:  os.Getenv("AUTH_CALLBACK_URL"),
-		returnUrl:    os.Getenv("AUTH_REDIRECT_URL"), // Redirect after logout
-		domain:       os.Getenv("AUTH_DOMAIN"),
-		loginUri:     loginUrl,
-	}
+	// Loading the information from the Envirinment
+	clientId = os.Getenv("AUTH_CLIENT_ID")
+	clientSecret = os.Getenv("AUTH_CLIENT_SECRET")
+	callbackUrl = os.Getenv("AUTH_CALLBACK_URL")
+	returnUrl = os.Getenv("AUTH_REDIRECT_URL") // Redirect after logout
+	domain = os.Getenv("AUTH_DOMAIN")
 
-	auth0Provider := auth0.New(ah.clientId, ah.clientSecret, ah.callbackUrl, ah.domain)
+	// registering the provider
+	auth0Provider := auth0.New(clientId, clientSecret, callbackUrl, domain)
 	goth.UseProviders(auth0Provider)
-
-	return ah
 }
 
-func (ah *AuthHandler) GetLogin(c echo.Context) error {
+func GetLogin(c echo.Context) error {
 	q := c.Request().URL.Query()
 	q.Add("provider", "auth0")
 	c.Request().URL.RawQuery = q.Encode()
@@ -69,7 +66,7 @@ func (ah *AuthHandler) GetLogin(c echo.Context) error {
 	return nil
 }
 
-func (ah *AuthHandler) GetCallback(c echo.Context) error {
+func GetCallback(c echo.Context) error {
 	req := c.Request()
 	res := c.Response().Writer
 
@@ -86,7 +83,7 @@ func (ah *AuthHandler) GetCallback(c echo.Context) error {
 	return c.Redirect(http.StatusSeeOther, "/")
 }
 
-func (ah *AuthHandler) GetLogout(c echo.Context) error {
+func GetLogout(c echo.Context) error {
 	q := c.Request().URL.Query()
 	q.Add("provider", "auth0")
 	c.Request().URL.RawQuery = q.Encode()
@@ -109,20 +106,20 @@ func (ah *AuthHandler) GetLogout(c echo.Context) error {
 	}
 
 	// Close auth0 session
-	logoutUrl, err := url.Parse("https://" + ah.domain + "/v2/logout")
+	logoutUrl, err := url.Parse("https://" + domain + "/v2/logout")
 	if err != nil {
 		return err
 	}
 
 	parameters := url.Values{}
-	parameters.Add("returnTo", ah.returnUrl)
-	parameters.Add("client_id", ah.clientId)
+	parameters.Add("returnTo", returnUrl)
+	parameters.Add("client_id", clientId)
 	logoutUrl.RawQuery = parameters.Encode()
 
 	return c.Redirect(http.StatusTemporaryRedirect, logoutUrl.String())
 }
 
-func (ah *AuthHandler) PageMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+func PageMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		slog.Debug("Page authentication middleware")
 
@@ -133,7 +130,7 @@ func (ah *AuthHandler) PageMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		user := sess.Values[userCookieValueName]
 		if user == nil {
-			return c.Redirect(http.StatusTemporaryRedirect, ah.loginUri)
+			return c.Redirect(http.StatusTemporaryRedirect, LoginUri)
 		}
 
 		// Add user to the context
@@ -144,13 +141,13 @@ func (ah *AuthHandler) PageMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 }
 
 // addUserToContext adds the given user to che given context
-func addUserToContext(c echo.Context, user User){
+func addUserToContext(c echo.Context, user User) {
 	ctx := context.WithValue(c.Request().Context(), "user", user)
 	r := c.Request().WithContext(ctx)
 	c.SetRequest(r)
 }
 
-func (ah *AuthHandler) FragmentMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+func FragmentMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		slog.Debug("Fragment authentication middleware")
 
@@ -161,7 +158,7 @@ func (ah *AuthHandler) FragmentMiddleware(next echo.HandlerFunc) echo.HandlerFun
 
 		user := sess.Values[userCookieValueName]
 		if user == nil {
-			c.Response().Header().Add("HX-Redirect", ah.loginUri)
+			c.Response().Header().Add("HX-Redirect", LoginUri)
 			return nil
 		}
 
