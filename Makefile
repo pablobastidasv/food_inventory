@@ -26,9 +26,12 @@ air:
 	@air
 
 
-run: docker migrate/run
+run/dev: docker migrate/run
 	make -j 3 templ tailwind air
 
+
+run/docker:
+	docker compose up --build --force-recreate
 
 test:
 	@go test ./...

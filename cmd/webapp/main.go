@@ -4,9 +4,12 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/pablobastidasv/fridge_inventory/auth"
 	"github.com/pablobastidasv/fridge_inventory/db"
 	"github.com/pablobastidasv/fridge_inventory/handler"
 	"github.com/pablobastidasv/fridge_inventory/internals/inventorymanager"
@@ -15,9 +18,11 @@ import (
 	slogecho "github.com/samber/slog-echo"
 )
 
-func main() {
+func init() {
 	_ = godotenv.Load()
+}
 
+func main() {
 	// creating custom log
 	logger := newLogger()
 
@@ -32,19 +37,28 @@ func main() {
 	// Middlewares
 	e.Use(slogecho.New(logger))
 	e.Use(middleware.Recover())
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret")))) // TODO: real secret value here
 
 	store := postgres.New(dbConn)
 	manager := inventorymanager.New(store)
 
-	e.GET("/", handler.GetMainIndex())
 
-	invGroup := e.Group("/inventories")
+	// ======= Begin: Authentication
+    g := e.Group("/auth")
+	g.GET("/login", auth.GetLogin)
+	g.GET("/callback", auth.GetCallback)
+	g.GET("/logout", auth.GetLogout)
+	// ======= End: Authentication
+
+	e.GET("/", handler.GetMainIndex(), auth.PageMiddleware)
+
+	invGroup := e.Group("/inventories", auth.FragmentMiddleware)
 	invGroup.GET("", handler.GetInventoryItems(manager))
 	invGroup.PUT("/:id", handler.PutInventory(manager))
 	invGroup.GET("/:id/edit", handler.GetInventoryForm(manager))
 
 	prdGroup := e.Group("/products")
-	prdGroup.GET("", handler.GetProducts(manager))
+	prdGroup.GET("", handler.GetProducts(manager), auth.PageMiddleware)
 	prdGroup.POST("", handler.PostProducts(manager), server.WithTransaction)
 	prdGroup.GET("/new", handler.GetProductsForm(manager))
 	prdGroup.DELETE("/:id", handler.DeleteProduct(manager), server.WithTransaction)
