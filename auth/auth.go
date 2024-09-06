@@ -165,6 +165,9 @@ func (ah *AuthHandler) FragmentMiddleware(next echo.HandlerFunc) echo.HandlerFun
 			return nil
 		}
 
+		// Add user to the context
+		addUserToContext(c, user.(User))
+
 		return next(c)
 	}
 }
